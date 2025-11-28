@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
@@ -29,11 +28,9 @@
             },
             animation: {
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'shine': 'shine 3s linear infinite',
               'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
-              shine: { to: { backgroundPosition: '200% center' } },
               float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
             }
           }
@@ -42,56 +39,34 @@
     </script>
 
     <style>
-      /* Estilos Base de Lujo */
-      body {
-        background-color: #0a0a0a;
-        color: #ffffff;
-      }
-      
-      /* Efecto Texto Dorado Brillante */
+      body { background-color: #0a0a0a; color: #ffffff; }
       .text-gold-gradient {
         background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        background-size: 200% auto;
-        animation: shine 3s linear infinite;
+        -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 3s linear infinite;
       }
-
-      /* Botones Premium */
       .btn-gold {
         background: linear-gradient(45deg, #bf953f, #fbf5b7, #aa771c);
-        color: #000;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        color: #000; font-weight: 700; letter-spacing: 0.1em; transition: all 0.3s ease; position: relative; overflow: hidden;
       }
-      .btn-gold:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-      }
-
-      /* Paneles de Cristal */
+      .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
       .glass-panel {
-        background: rgba(18, 18, 18, 0.8);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
       }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       
-      /* Scrollbar Oculto para Carrusel */
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-      }
-      .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-      }
+      @keyframes shine { to { background-position: 200% center; } }
+      
+      /* Animación del ecualizador del botón de música */
+      .music-playing { animation: pulse-gold 2s infinite; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); background: rgba(212, 175, 55, 0.1); }
+      @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
     </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-black">
+
+    <audio id="bg-music" loop>
+        <source src="fotos/musica.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800 via-black to-black opacity-60"></div>
@@ -108,10 +83,15 @@
             </span>
         </a>
 
-        <div class="hidden md:flex items-center gap-8">
+        <div class="hidden md:flex items-center gap-6">
             <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Fases</a>
             <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Participantes</a>
-            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Foto Grupal</a>
+            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Protagonistas</a>
+            
+            <button id="music-btn-desktop" onclick="toggleMusic()" class="w-8 h-8 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black transition-all" title="Reproducir/Pausar Música">
+                <i id="music-icon-desktop" data-lucide="music" class="w-4 h-4"></i>
+            </button>
+
             <a href="#active-phase" class="btn-gold px-6 py-2 rounded-sm text-xs">
                <span class="flex items-center gap-2"><i data-lucide="star" class="w-3 h-3"></i> IR A PARTICIPAR</span>
             </a>
@@ -126,7 +106,10 @@
          <div class="flex flex-col p-4 gap-4 text-center">
             <a href="#rules" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
             <a href="#nominees" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Participantes</a>
-            <a href="#group-photo" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Foto Grupal</a>
+            <a href="#group-photo" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Protagonistas</a>
+            <button onclick="toggleMusic(); document.getElementById('mobile-menu').classList.add('hidden')" class="text-gold font-display uppercase border border-gold/30 rounded-full py-2 mx-10 hover:bg-gold/10">
+                🎵 Activar/Desactivar Música
+            </button>
             <a href="#active-phase" class="text-gold font-bold uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ir a Participar</a>
          </div>
       </div>
@@ -167,6 +150,7 @@
                     <span class="text-[10px] md:text-xs uppercase tracking-widest text-neutral-400 mt-2">Seg</span>
                 </div>
             </div>
+
             <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="#active-phase" class="btn-gold px-10 py-4 rounded-sm shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                     PARTICIPAR AHORA
@@ -254,15 +238,13 @@
                     </div>
                 </div>
 
-                <div class="relative flex flex-col md:flex-row gap-8 items-center pt-8">
+                <div class="relative flex flex-col md:flex-row gap-8 items-center pt-8 md:pt-32">
                     <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-black border-2 border-gold rounded-full z-10 flex items-center justify-center">
                         <i data-lucide="trophy" class="w-4 h-4 text-gold"></i>
                     </div>
                     <div class="w-full text-center pl-12 md:pl-0 md:pt-20">
                          <h3 class="text-2xl font-display font-bold text-gold uppercase">Gran Gala & Amigo Invisible</h3>
-                         <p class="text-xs uppercase tracking-widest text-white mt-1">Fecha: 19 de Diciembre de 2025 </p>
-                         <p class="text-xs uppercase tracking-widest text-white mt-1">Ubicación: Por determinar
-                         </p>
+                         <p class="text-xs uppercase tracking-widest text-white mt-1">Fecha y Ubicación: Probablemente cuando quedemos</p>
                     </div>
                 </div>
             </div>
@@ -433,7 +415,7 @@
         <div class="max-w-5xl mx-auto relative z-10 text-center">
             <i data-lucide="camera" class="w-8 h-8 text-gold mx-auto mb-6 opacity-80"></i>
             <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-12 uppercase tracking-wider">
-                <span class="text-gold">Foto Grupal</span>
+                Los <span class="text-gold">Protagonistas</span>
             </h2>
 
             <div class="relative group max-w-4xl mx-auto transform rotate-1 hover:rotate-0 transition-all duration-700 ease-out">
@@ -460,37 +442,58 @@
            </p>
         </div>
     </footer>
+
     <script>
-      // Iniciar iconos
       lucide.createIcons();
 
-      // === LÓGICA DE LA CUENTA ATRÁS ===
-      // Fecha objetivo: 19 Diciembre 2025 a las 20:00
+      // ============================================
+      // CUENTA ATRÁS LÓGICA
+      // ============================================
       const targetDate = new Date("December 19, 2025 20:00:00").getTime();
 
       const timer = setInterval(function() {
           const now = new Date().getTime();
           const distance = targetDate - now;
 
-          // Cálculos de tiempo
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-          // Mostrar en el HTML (con ceros a la izquierda si es menor de 10)
           document.getElementById("days").innerText = days < 10 ? "0" + days : days;
           document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
           document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
           document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
 
-          // Si la cuenta atrás termina
           if (distance < 0) {
               clearInterval(timer);
               document.getElementById("countdown").innerHTML = 
                   "<div class='text-4xl md:text-6xl font-display font-bold text-gold animate-bounce tracking-widest'>¡YA ES LA HORA!</div>";
           }
       }, 1000);
+
+      // ============================================
+      // REPRODUCTOR DE MÚSICA LÓGICA
+      // ============================================
+      const audio = document.getElementById('bg-music');
+      const musicBtn = document.getElementById('music-btn-desktop');
+      const musicIcon = document.getElementById('music-icon-desktop');
+      let isPlaying = false;
+
+      function toggleMusic() {
+          if (!isPlaying) {
+              audio.play().catch(error => {
+                console.log("Error al reproducir: ", error);
+                alert("Interactúa con la página primero para reproducir música.");
+              });
+              musicBtn.classList.add('music-playing');
+              // Cambiar icono a Pausa (si se quisiera, pero mantener nota musical es elegante)
+          } else {
+              audio.pause();
+              musicBtn.classList.remove('music-playing');
+          }
+          isPlaying = !isPlaying;
+      }
     </script>
 </body>
 </html>
