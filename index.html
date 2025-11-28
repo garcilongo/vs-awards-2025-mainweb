@@ -104,7 +104,7 @@
         <a href="#hero" class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo(0,0)">
             <img src="fotos/logo.png" alt="Logo" class="h-10 w-10 object-contain group-hover:scale-110 transition-transform drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]">
             <span class="font-display font-bold tracking-widest text-lg hidden sm:block text-white">
-              VIAJE DE S3X0 <span class="text-gold">AWARDS 2025</span>
+              VIAJE DE S3X0 <span class="text-gold">AWARDS</span>
             </span>
         </a>
 
@@ -238,7 +238,7 @@
                     <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-black border-2 border-gold rounded-full z-10 flex items-center justify-center">
                         <i data-lucide="trophy" class="w-4 h-4 text-gold"></i>
                     </div>
-                    <div class="w-full text-center pl-12 md:pl-0 mt-20">
+                    <div class="w-full text-center pl-12 md:pl-0">
                          <h3 class="text-2xl font-display font-bold text-gold uppercase">Gran Gala & Amigo Invisible</h3>
                          <p class="text-xs uppercase tracking-widest text-white mt-1">Fecha y Ubicación: Top Secret</p>
                     </div>
@@ -249,78 +249,135 @@
 
     <section id="nominees" class="py-24 bg-nexus-panel border-t border-white/5">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-end mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                 <div>
-                    <span class="text-[#eab308] text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Los Protagonistas</span>
-                    <h2 class="text-4xl md:text-5xl font-display font-bold text-[#eab308] uppercase">Candidatos 2025</h2>
+                    <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Los Protagonistas</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-bold text-gold uppercase">Candidatos 2025</h2>
                 </div>
-                <div class="hidden md:flex gap-2">
-                    <span class="text-xs text-[#eab308] uppercase tracking-widest">Desliza para ver más &rarr;</span>
+                <div class="flex gap-2 text-neutral-500 text-xs uppercase tracking-widest">
+                    <i data-lucide="hand-metal" class="w-4 h-4"></i>
+                    <span>Conoce al equipo</span>
                 </div>
             </div>
 
             <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 scrollbar-hide">
                 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/carlos.jpg" alt="Carlos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                        <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Carlos</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/carlos.jpg" alt="Carlos" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Carlos</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "Conocido por desaparecer misteriosamente antes de que llegue la cuenta. Su superpoder es dormir en cualquier superficie."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/adriana.jpg" alt="Adriana" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Adriana</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/adriana.jpg" alt="Adriana" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Adriana</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "La reina del drama y el estilo. Si hay una cámara cerca, ella ya está posando. Probablemente llegue tarde a la gala."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/joseluis.jpg" alt="José Luis" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">José Luis</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/joseluis.jpg" alt="José Luis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">José Luis</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "El filósofo del grupo cuando lleva dos copas. Sus chistes son tan malos que dan la vuelta y se vuelven legendarios."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                 <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/nicolas.jpg" alt="Nicolás" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Nicolás</h3>
+                 <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/nicolas.jpg" alt="Nicolás" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Nicolás</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "Capaz de organizar el viaje entero en un Excel y perder el pasaporte 5 minutos después. Un hombre de contrastes."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/pablog.jpg" alt="Pablo García" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Pablo García</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/pablog.jpg" alt="Pablo García" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Pablo García</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "No se sabe si viene o va, pero siempre está ahí para la foto. Su risa se escucha a tres kilómetros de distancia."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/pablod.jpg" alt="Pablo Dolz" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Pablo Dolz</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/pablod.jpg" alt="Pablo Dolz" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Pablo Dolz</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "El alma de la fiesta... hasta las 12 de la noche. Tiene un doctorado en liarla parda y otro en solucionarlo."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
-                    <img src="fotos/lucia.jpg" alt="Lucía" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 w-full">
-                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Lucía</h3>
+                <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
+                    <div class="relative aspect-square overflow-hidden">
+                        <img src="fotos/lucia.jpg" alt="Lucía" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Lucía</h3>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
+                            "Pequeña pero matona. Si hay una discusión, ella la gana. Si hay un chupito, ella se lo toma."
+                        </p>
+                        <div class="mt-auto flex gap-4 pt-4 border-t border-white/5">
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                            <a href="#" class="text-neutral-500 hover:text-gold transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        </div>
                     </div>
                 </div>
 
@@ -348,7 +405,7 @@
                 <h3 class="text-2xl font-display font-bold text-white mb-2">Formulario Oficial - Fase 0</h3>
                 <p class="text-neutral-400 mb-8 text-sm">Este enlace te llevará al formulario seguro de Google Forms.</p>
                 
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSecuJOtjBhZcBpBBXZNJrwPXUfSSRH5PvDtcoUDzhlVFwTjxg/viewform?usp=sharing&ouid=104483124650938813543" target="_blank" class="btn-gold px-8 py-4 rounded-sm text-sm uppercase tracking-widest inline-flex items-center gap-2">
+                <a href="https://forms.gle/q2waXdcZhA9HsFyN9" target="_blank" class="btn-gold px-8 py-4 rounded-sm text-sm uppercase tracking-widest inline-flex items-center gap-2">
                     ABRIR FORMULARIO DE PROPUESTAS <i data-lucide="external-link" class="w-4 h-4"></i>
                 </a>
              </div>
@@ -366,10 +423,8 @@
 
             <div class="relative group max-w-4xl mx-auto transform rotate-1 hover:rotate-0 transition-all duration-700 ease-out">
                 <div class="absolute -inset-1 bg-gradient-to-r from-gold via-yellow-500 to-gold rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-
                 <div class="relative rounded-xl overflow-hidden border-2 border-white/10 bg-black shadow-2xl">
-                    <img src="fotos/recuerdo.jpg" alt="Foto Grupal" class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
-                    
+                    <img src="fotos/grupo.jpg" alt="Foto Grupal" class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
                     <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent text-left">
                         <p class="text-gold font-display italic text-xl">"Viaje de S3X0 Awards - Edición 2025"</p>
                     </div>
@@ -386,7 +441,7 @@
            </div>
            
            <p class="text-[10px] text-neutral-600 font-sans uppercase tracking-wider">
-                © 2025 Comité Organizador. Todos los derechos reservados
+                © 2025 Comité Organizador. Hecho con <span class="text-gold">♥</span> y poco presupuesto.
            </p>
         </div>
     </footer>
