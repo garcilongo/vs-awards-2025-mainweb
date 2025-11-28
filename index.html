@@ -477,56 +477,62 @@
     </footer>
 
     <script>
-      lucide.createIcons();
+        lucide.createIcons();
 
-      // ============================================
-      // CUENTA ATRÁS LÓGICA
-      // ============================================
-      const targetDate = new Date("December 19, 2025 20:00:00").getTime();
+        // ============================================
+        // CUENTA ATRÁS LÓGICA
+        // ============================================
+        const targetDate = new Date("December 19, 2025 20:00:00").getTime();
 
-      const timer = setInterval(function() {
-          const now = new Date().getTime();
-          const distance = targetDate - now;
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-          document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-          document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-          document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-          document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
 
-          if (distance < 0) {
-              clearInterval(timer);
-              document.getElementById("countdown").innerHTML = 
-                  "<div class='text-4xl md:text-6xl font-display font-bold text-gold animate-bounce tracking-widest'>¡YA ES LA HORA!</div>";
-          }
-      }, 1000);
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = 
+                    "<div class='text-4xl md:text-6xl font-display font-bold text-gold animate-bounce tracking-widest'>¡YA ES LA HORA!</div>";
+            }
+        }, 1000);
 
-      // ============================================
-      // REPRODUCTOR DE MÚSICA LÓGICA
-      // ============================================
-      const audio = document.getElementById('bg-music');
-      const musicBtn = document.getElementById('music-btn-desktop');
-      const musicIcon = document.getElementById('music-icon-desktop');
-      let isPlaying = false;
+        // ============================================
+        // REPRODUCTOR DE MÚSICA LÓGICA
+        // ============================================
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn-desktop');
+        const musicIcon = document.getElementById('music-icon-desktop');
+        let isPlaying = false;
 
-      function toggleMusic() {
-          if (!isPlaying) {
-              audio.play().catch(error => {
-                console.log("Error al reproducir: ", error);
-                alert("Interactúa con la página primero para reproducir música.");
-              });
-              musicBtn.classList.add('music-playing');
-              // Cambiar icono a Pausa (si se quisiera, pero mantener nota musical es elegante)
-          } else {
-              audio.pause();
-              musicBtn.classList.remove('music-playing');
-          }
-          isPlaying = !isPlaying;
-      }
+        function toggleMusic() {
+            if (!isPlaying) {
+                audio.play().catch(error => {
+                    console.log("Error al reproducir: ", error);
+                    alert("Interactúa con la página primero para reproducir música.");
+                });
+                musicBtn.classList.add('music-playing');
+                // Cambiar icono a Pausa (si se quisiera, pero mantener nota musical es elegante)
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('music-playing');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Función para girar la tarjeta al hacer click
+        function toggleFlip(element) {
+            const innerCard = element.querySelector('.flip-card-inner');
+            innerCard.classList.toggle('flipped');
+        }
     </script>
 </body>
 </html>
