@@ -85,7 +85,7 @@
 
         <div class="hidden md:flex items-center gap-6">
             <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Fases</a>
-            <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Participantes</a>
+            <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Candidatos</a>
             <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Foto Grupal</a>
             
             <button id="music-btn-desktop" onclick="toggleMusic()" class="w-8 h-8 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black transition-all" title="Reproducir/Pausar Música">
@@ -105,10 +105,10 @@
       <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-white/10 absolute w-full">
          <div class="flex flex-col p-4 gap-4 text-center">
             <a href="#rules" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
-            <a href="#nominees" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Participantes</a>
+            <a href="#nominees" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Candidatos</a>
             <a href="#group-photo" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Foto Grupal</a>
             <button onclick="toggleMusic(); document.getElementById('mobile-menu').classList.add('hidden')" class="text-gold font-display uppercase border border-gold/30 rounded-full py-2 mx-10 hover:bg-gold/10">
-                🎵 Activar/Desactivar Música
+                🎵
             </button>
             <a href="#active-phase" class="text-gold font-bold uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ir a Participar</a>
          </div>
@@ -233,7 +233,7 @@
                     <div class="md:w-1/2 order-2 md:order-1"></div>
                     <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
                     <div class="md:w-1/2 pl-12 md:pl-12 order-3 md:order-3">
-                        <h3 class="text-xl font-display font-bold text-white">Fase 3: La Final</h3>
+                        <h3 class="text-xl font-display font-bold text-white">Fase 3: La Gran Final</h3>
                         <p class="text-sm text-neutral-400 mt-2">Escrutinio final entre los finalistas.</p>
                     </div>
                 </div>
@@ -255,8 +255,7 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                 <div>
-                    <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Los Protagonistas</span>
-                    <h2 class="text-4xl md:text-5xl font-display font-bold text-gold uppercase">Candidatos 2025</h2>
+                    <h2 class="text-4xl md:text-5xl font-display font-bold text-gold-light uppercase">Candidatos 2025</h2>
                 </div>
                 <div class="flex gap-2 text-neutral-500 text-xs uppercase tracking-widest">
                     <i data-lucide="hand-metal" class="w-4 h-4"></i>
