@@ -510,12 +510,66 @@
                 </div>
 
                  <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
-                    <div class="relative aspect-square overflow-hidden">
-                        <img src="fotos/nicolas.jpg" alt="Nicolás" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+    
+                    <div class="relative aspect-square perspective-container cursor-pointer" onclick="toggleFlip(this)">
+                        <div class="flip-card-inner">
+                            
+                            <div class="flip-card-front overflow-hidden">
+                                <img src="fotos/nicolas.jpg" alt="Carlos" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                                <div class="absolute top-4 right-4 bg-black/50 backdrop-blur rounded-full p-1 text-gold border border-gold/30">
+                                    <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+
+                            <div class="flip-card-back">
+                                <h4 class="text-gold font-display font-bold text-xl mb-4 text-center uppercase tracking-widest">Stats</h4>
+                                
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Inteligencia</span>
+                                        <span>85/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Fuerza</span>
+                                        <span>60/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 60%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Carisma</span>
+                                        <span>90/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Pesado</span>
+                                        <span>20/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-red-500 h-2 rounded-full" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Nicolás</h3>
+
+                    <div class="p-6 flex-1 flex flex-col relative z-10 bg-black">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Carlos</h3>
                         <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
                             "Capaz de organizar un viaje entero con Gemini y acabar en una sidrería 5 minutos después. Un hombre de contrastes y con conocimiento financiero."
                         </p>
@@ -526,12 +580,66 @@
                 </div>
 
                 <div class="snap-start min-w-[320px] w-[320px] bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-gold/40 transition-colors flex flex-col">
-                    <div class="relative aspect-square overflow-hidden">
-                        <img src="fotos/pablog.jpg" alt="Pablo García" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+    
+                    <div class="relative aspect-square perspective-container cursor-pointer" onclick="toggleFlip(this)">
+                        <div class="flip-card-inner">
+                            
+                            <div class="flip-card-front overflow-hidden">
+                                <img src="fotos/pablog.jpg" alt="Carlos" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                                <div class="absolute top-4 right-4 bg-black/50 backdrop-blur rounded-full p-1 text-gold border border-gold/30">
+                                    <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                                </div>
+                            </div>
+
+                            <div class="flip-card-back">
+                                <h4 class="text-gold font-display font-bold text-xl mb-4 text-center uppercase tracking-widest">Stats</h4>
+                                
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Inteligencia</span>
+                                        <span>85/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Fuerza</span>
+                                        <span>60/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 60%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Carisma</span>
+                                        <span>90/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-gold h-2 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs uppercase text-neutral-400 mb-1">
+                                        <span>Pesado</span>
+                                        <span>20/100</span>
+                                    </div>
+                                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                                        <div class="bg-red-500 h-2 rounded-full" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Pablo García</h3>
+
+                    <div class="p-6 flex-1 flex flex-col relative z-10 bg-black">
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-gold transition-colors">Carlos</h3>
                         <p class="text-neutral-400 text-sm leading-relaxed mb-6 font-light">
                             "Pablogarcialuna. No se sabe si posee autismo o TDAH, pero siempre está ahí para tocar los huevos y para hacer reír a la gente. Su risa y su voz se escuchan a tres kilómetros de distancia."
                         </p>
