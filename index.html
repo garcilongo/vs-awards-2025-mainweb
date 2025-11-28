@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIAJE DE S3X0 AWARDS®</title>
+    
+    <link rel="icon" type="image/png" href="fotos/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gold: { DEFAULT: '#d4af37', light: '#fedc56', dark: '#aa771c' },
+              nexus: { black: '#0a0a0a', panel: '#121212' }
+            },
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+              display: ['Playfair Display', 'serif'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'shine': 'shine 3s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+              shine: { to: { backgroundPosition: '200% center' } },
+              float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* Estilos Base de Lujo */
+      body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+      }
+      
+      /* Efecto Texto Dorado Brillante */
+      .text-gold-gradient {
+        background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        background-size: 200% auto;
+        animation: shine 3s linear infinite;
+      }
+
+      /* Botones Premium */
+      .btn-gold {
+        background: linear-gradient(45deg, #bf953f, #fbf5b7, #aa771c);
+        color: #000;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-gold:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+      }
+
+      /* Paneles de Cristal */
+      .glass-panel {
+        background: rgba(18, 18, 18, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      }
+      
+      /* Scrollbar Oculto para Carrusel */
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-black">
+
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800 via-black to-black opacity-60"></div>
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+    </div>
+
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5 py-4">
+      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        
+        <a href="#hero" class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo(0,0)">
+            <img src="fotos/logo.png" alt="Logo" class="h-10 w-10 object-contain group-hover:scale-110 transition-transform drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]">
+            <span class="font-display font-bold tracking-widest text-lg hidden sm:block text-white">
+              VIAJE DE S3X0 <span class="text-gold">AWARDS 2025</span>
+            </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Fases</a>
+            <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors">Participantes</a>
+            <a href="#active-phase" class="btn-gold px-6 py-2 rounded-sm text-xs">
+               <span class="flex items-center gap-2"><i data-lucide="star" class="w-3 h-3"></i> FASE 0 ACTIVA</span>
+            </a>
+        </div>
+
+        <button class="md:hidden text-gold" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-white/10 absolute w-full">
+         <div class="flex flex-col p-4 gap-4 text-center">
+            <a href="#rules" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
+            <a href="#nominees" class="text-white font-display uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Participantes</a>
+            <a href="#active-phase" class="text-gold font-bold uppercase" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ir a Participar</a>
+         </div>
+      </div>
+    </nav>
+
+    <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
+        <div class="mb-8 relative group animate-float">
+            <div class="absolute inset-0 bg-gold blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700 rounded-full"></div>
+            <img src="fotos/grupo.jpg" alt="Grupo" class="relative w-64 md:w-80 h-auto object-cover rounded-xl border border-gold/30 shadow-[0_0_30px_rgba(0,0,0,0.8)] transform group-hover:scale-105 transition-transform duration-700">
+        </div>
+
+        <div class="text-center space-y-4 z-10 max-w-4xl">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter leading-none">
+                VIAJE DE S3X0<br />
+                <span class="text-gold-gradient">AWARDS</span>
+                <sup class="text-2xl md:text-4xl text-gold ml-2">2025</sup>
+            </h1>
+            
+            <p class="text-neutral-300 text-sm md:text-lg italic font-display tracking-wide max-w-2xl mx-auto border-t border-b border-white/10 py-6 mt-8">
+                "Honrando el talento, la locura y los momentos que definen nuestra singularidad."
+            </p>
+
+            <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#active-phase" class="btn-gold px-10 py-4 rounded-sm shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                    PARTICIPAR AHORA
+                </a>
+                <a href="#intro" class="px-10 py-4 border border-white/20 text-white hover:bg-white/5 hover:border-gold/50 transition-all font-bold text-xs tracking-widest uppercase rounded-sm flex items-center justify-center">
+                    LEER MANIFIESTO
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="intro" class="py-24 px-6 bg-black relative">
+        <div class="max-w-4xl mx-auto text-center relative z-10 glass-panel p-10 md:p-16 rounded-3xl border border-white/5 shadow-[0_0_50px_rgba(212,175,55,0.05)]">
+            
+            <i data-lucide="scroll-text" class="w-12 h-12 text-gold mx-auto mb-8 animate-pulse-slow"></i>
+            
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-10 uppercase tracking-widest">
+                Estimado <span class="text-gold">Participante</span>
+            </h2>
+            
+            <div class="text-neutral-300 leading-loose font-light space-y-8 text-justify md:text-center text-lg">
+                <p>
+                    Es un inmenso honor y un profundo placer poder dirigirnos a usted para invitarle a la 
+                    <strong class="text-white font-medium">Primera Edición de los prestigiosos VIAJE DE S3X0 AWARDS®</strong>.
+                </p>
+                <p>
+                    Estos premios están concebidos para honrar, con el rigor que merecen, aspectos tan variados como el talento individual, 
+                    la creatividad desbordante y las situaciones más cómicas que han quedado grabadas en nuestra memoria.
+                </p>
+                
+                <div class="mt-12 p-8 rounded-xl bg-gradient-to-r from-transparent via-gold/5 to-transparent border-t border-b border-gold/20 relative">
+                    <span class="absolute top-[-20px] left-1/2 -translate-x-1/2 text-4xl text-gold/30 font-serif">"</span>
+                    <p class="italic text-gold-light text-center font-display text-xl leading-relaxed">
+                        Dada la relevancia, la solemnidad y el prestigio de esta convocatoria, se ruega encarecidamente a todos los invitados la observancia de un estricto código de vestimenta de etiqueta.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rules" class="py-24 px-6 bg-black relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                 <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4 block">El Proceso</span>
+                 <h2 class="text-4xl md:text-5xl font-display font-bold text-white uppercase">Fases del Evento</h2>
+            </div>
+
+            <div class="relative space-y-12">
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent"></div>
+
+                <div class="relative flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1 pl-12 md:pl-0 md:pr-12">
+                        <span class="bg-gold text-black text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">EN CURSO</span>
+                        <h3 class="text-2xl font-display font-bold text-white">Fase 0: Categorías</h3>
+                        <p class="text-sm text-neutral-400 mt-2">Propuesta de categorías sobre las cuales se realizará la selección definitiva.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-gold rounded-full shadow-[0_0_15px_rgba(212,175,55,1)] z-10"></div>
+                    <div class="md:w-1/2 order-3"></div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity">
+                    <div class="md:w-1/2 order-2 md:order-1"></div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
+                    <div class="md:w-1/2 pl-12 md:pl-12 order-3 md:order-3">
+                        <h3 class="text-xl font-display font-bold text-white">Fase 1: Candidatos</h3>
+                        <p class="text-sm text-neutral-400 mt-2">Presentación de candidatos a ganar en cada categoría establecida.</p>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1 pl-12 md:pl-0 md:pr-12">
+                         <h3 class="text-xl font-display font-bold text-white">Fase 2: Votación Global</h3>
+                        <p class="text-sm text-neutral-400 mt-2">Primera votación de la cual saldrán los nominados oficiales.</p>
+                    </div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
+                    <div class="md:w-1/2 order-3"></div>
+                </div>
+
+                 <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity">
+                    <div class="md:w-1/2 order-2 md:order-1"></div>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
+                    <div class="md:w-1/2 pl-12 md:pl-12 order-3 md:order-3">
+                        <h3 class="text-xl font-display font-bold text-white">Fase 3: La Final</h3>
+                        <p class="text-sm text-neutral-400 mt-2">Escrutinio final entre los finalistas.</p>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row gap-8 items-center pt-8">
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-black border-2 border-gold rounded-full z-10 flex items-center justify-center">
+                        <i data-lucide="trophy" class="w-4 h-4 text-gold"></i>
+                    </div>
+                    <div class="w-full text-center pl-12 md:pl-0 mt-20">
+                         <h3 class="text-2xl font-display font-bold text-gold uppercase">Gran Gala & Amigo Invisible</h3>
+                         <p class="text-xs uppercase tracking-widest text-white mt-1">Fecha y Ubicación: Top Secret</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nominees" class="py-24 bg-nexus-panel border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-[#eab308] text-xs font-bold tracking-[0.3em] uppercase mb-2 block">Los Protagonistas</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-bold text-[#eab308] uppercase">Candidatos 2025</h2>
+                </div>
+                <div class="hidden md:flex gap-2">
+                    <span class="text-xs text-[#eab308] uppercase tracking-widest">Desliza para ver más &rarr;</span>
+                </div>
+            </div>
+
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 scrollbar-hide">
+                
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/carlos.jpg" alt="Carlos" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                        <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Carlos</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/adriana.jpg" alt="Adriana" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Adriana</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/joseluis.jpg" alt="José Luis" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">José Luis</h3>
+                    </div>
+                </div>
+
+                 <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/nicolas.jpg" alt="Nicolás" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Nicolás</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/pablog.jpg" alt="Pablo García" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Pablo García</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/pablod.jpg" alt="Pablo Dolz" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Pablo Dolz</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[280px] w-[280px] relative aspect-[3/4] group overflow-hidden border border-white/10 bg-black">
+                    <img src="fotos/lucia.jpg" alt="Lucía" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 w-full">
+                         <div class="w-8 h-[2px] bg-gold mb-3 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-2xl font-display font-bold text-white group-hover:text-gold transition-colors">Lucía</h3>
+                    </div>
+                </div>
+
+                <div class="snap-start min-w-[50px]"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="active-phase" class="py-24 px-6 bg-black relative border-t border-gold/20">
+        <div class="absolute inset-0 bg-gold/5 blur-[100px] rounded-full opacity-20 pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+             <div class="inline-block border border-gold px-4 py-1 rounded-full mb-6">
+                <span class="text-gold text-xs font-bold tracking-widest uppercase animate-pulse">● Zona de Votación Activa</span>
+             </div>
+             
+             <h2 class="text-4xl md:text-6xl font-display font-bold mb-6 text-white uppercase">Propón tus Categorías</h2>
+             <p class="text-neutral-300 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                ¿Crees que falta algún premio esencial? ¿Alguien hizo algo legendario que merece ser reconocido? 
+                <br/><strong class="text-gold">Ayúdanos a definir la gala.</strong>
+             </p>
+
+             <div class="glass-panel p-8 md:p-12 rounded-xl border border-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.1)]">
+                <i data-lucide="clipboard-edit" class="w-12 h-12 text-gold mx-auto mb-6"></i>
+                <h3 class="text-2xl font-display font-bold text-white mb-2">Formulario Oficial - Fase 0</h3>
+                <p class="text-neutral-400 mb-8 text-sm">Este enlace te llevará al formulario seguro de Google Forms.</p>
+                
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSecuJOtjBhZcBpBBXZNJrwPXUfSSRH5PvDtcoUDzhlVFwTjxg/viewform?usp=sharing&ouid=104483124650938813543" target="_blank" class="btn-gold px-8 py-4 rounded-sm text-sm uppercase tracking-widest inline-flex items-center gap-2">
+                    ABRIR FORMULARIO DE PROPUESTAS <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+             </div>
+        </div>
+    </section>
+
+    <section id="group-photo" class="py-24 px-6 bg-nexus-panel border-t border-white/5 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05),transparent_70%)]"></div>
+
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <i data-lucide="camera" class="w-8 h-8 text-gold mx-auto mb-6 opacity-80"></i>
+            <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-12 uppercase tracking-wider">
+                Los <span class="text-gold">Protagonistas</span>
+            </h2>
+
+            <div class="relative group max-w-4xl mx-auto transform rotate-1 hover:rotate-0 transition-all duration-700 ease-out">
+                <div class="absolute -inset-1 bg-gradient-to-r from-gold via-yellow-500 to-gold rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+
+                <div class="relative rounded-xl overflow-hidden border-2 border-white/10 bg-black shadow-2xl">
+                    <img src="fotos/recuerdo.jpg" alt="Foto Grupal" class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent text-left">
+                        <p class="text-gold font-display italic text-xl">"Viaje de S3X0 Awards - Edición 2025"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-black border-t border-white/10 text-center relative z-10">
+        <div class="flex flex-col items-center gap-4">
+           <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer" onclick="window.scrollTo(0,0)">
+             <img src="fotos/logo.png" class="w-6 h-6 grayscale">
+             <span class="font-display font-bold text-sm tracking-[0.2em] text-white">VIAJE DE S3X0 AWARDS</span>
+           </div>
+           
+           <p class="text-[10px] text-neutral-600 font-sans uppercase tracking-wider">
+                © 2025 Comité Organizador. Todos los derechos reservados
+           </p>
+        </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+    </script>
+</body>
+</html>
