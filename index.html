@@ -151,10 +151,8 @@
         <source src="fotos/musica.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800 via-black to-black opacity-60"></div>
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-    </div>
+    <canvas id="constellation-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80"></div>
 
     <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5 py-4">
       <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -604,6 +602,36 @@
         </div>
     </section>
 
+    <section id="vip-access" class="py-24 px-6 bg-black relative border-t border-gold/10">
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+             <div class="mb-8">
+                 <i data-lucide="lock" class="w-8 h-8 text-gold mx-auto mb-4 opacity-50"></i>
+                 <h2 class="text-3xl font-display font-bold text-white uppercase tracking-widest">Área Restringida</h2>
+                 <p class="text-neutral-500 text-xs mt-2 uppercase tracking-wider">Solo para nominados oficiales</p>
+             </div>
+
+             <div id="vip-form" class="glass-panel p-8 rounded-xl max-w-md mx-auto border border-white/5">
+                 <div class="space-y-4">
+                     <input type="text" id="vip-name" placeholder="Tu Nombre (Ej: Carlos)" class="w-full bg-black/50 border border-white/10 rounded p-3 text-white focus:border-gold outline-none text-center placeholder-neutral-600 transition-colors uppercase font-bold text-sm">
+                     <input type="password" id="vip-pass" placeholder="Contraseña de Acceso" class="w-full bg-black/50 border border-white/10 rounded p-3 text-white focus:border-gold outline-none text-center placeholder-neutral-600 transition-colors text-sm">
+                     <button onclick="generateTicket()" class="btn-gold w-full py-3 rounded font-bold text-xs uppercase tracking-widest hover-trigger">Generar Acreditación</button>
+                     <p id="vip-error" class="text-red-500 text-xs font-bold hidden mt-2 animate-pulse">ACCESO DENEGADO: CONTRASEÑA INCORRECTA</p>
+                 </div>
+             </div>
+
+             <div id="ticket-result" class="hidden mt-12 animate-float">
+                 <h3 class="text-gold font-display text-xl mb-4">¡Bienvenido, Invitado de Honor!</h3>
+                 <p class="text-neutral-400 text-xs mb-6">Guarda esta imagen, será tu pase para la gala.</p>
+                 <div class="relative group max-w-sm mx-auto">
+                     <img id="final-ticket-img" src="" class="w-full rounded-lg shadow-[0_0_50px_rgba(212,175,55,0.3)] border border-gold/50">
+                     <a id="download-link" href="#" download="Entrada_VIP_S3X0.png" class="absolute bottom-4 right-4 bg-black/80 text-gold p-2 rounded hover:bg-gold hover:text-black transition-colors">
+                         <i data-lucide="download" class="w-5 h-5"></i>
+                     </a>
+                 </div>
+             </div>
+        </div>
+    </section>
+
     <footer class="py-12 bg-black border-t border-white/10 text-center relative z-10">
         <div class="flex flex-col items-center gap-4">
            <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer hover-trigger" onclick="window.scrollTo(0,0)">
@@ -710,6 +738,207 @@
           }
           isPlaying = !isPlaying;
       }
+
+      // ===========================
+      // 7. FONDO DE CONSTELACIÓN INTERACTIVA
+      // ===========================
+      const canvas = document.getElementById('constellation-bg');
+      const ctx = canvas.getContext('2d');
+      let particlesArray;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Ajustar tamaño al cambiar ventana
+      window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          initParticles();
+      });
+
+      // Partícula individual
+      class Particle {
+          constructor() {
+              this.x = Math.random() * canvas.width;
+              this.y = Math.random() * canvas.height;
+              this.directionX = (Math.random() * 0.4) - 0.2; // Velocidad lenta
+              this.directionY = (Math.random() * 0.4) - 0.2;
+              this.size = Math.random() * 2; // Tamaño variable
+              this.color = '#d4af37'; // Oro
+          }
+          draw() {
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+              ctx.fillStyle = this.color;
+              ctx.fill();
+          }
+          update() {
+              // Movimiento básico
+              if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+              if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+
+              // Interacción con ratón (repulsión suave)
+              // Usamos las variables del cursor personalizado que ya tienes
+              let dx = cursorDot.getBoundingClientRect().left - this.x;
+              let dy = cursorDot.getBoundingClientRect().top - this.y;
+              let distance = Math.sqrt(dx*dx + dy*dy);
+              
+              if (distance < 150) {
+                  const angle = Math.atan2(dy, dx);
+                  const force = (150 - distance) / 150;
+                  const moveX = Math.cos(angle) * force * 2; 
+                  const moveY = Math.sin(angle) * force * 2;
+                  this.x -= moveX;
+                  this.y -= moveY;
+              }
+
+              this.x += this.directionX;
+              this.y += this.directionY;
+              this.draw();
+          }
+      }
+
+      function initParticles() {
+          particlesArray = [];
+          // Número de partículas según pantalla
+          let numberOfParticles = (canvas.height * canvas.width) / 15000;
+          for (let i = 0; i < numberOfParticles; i++) {
+              particlesArray.push(new Particle());
+          }
+      }
+
+      function animateParticles() {
+          requestAnimationFrame(animateParticles);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          for (let i = 0; i < particlesArray.length; i++) {
+              particlesArray[i].update();
+          }
+          connectParticles();
+      }
+
+      function connectParticles() {
+          for (let a = 0; a < particlesArray.length; a++) {
+              for (let b = a; b < particlesArray.length; b++) {
+                  let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                 ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                  if (distance < (canvas.width/7) * (canvas.height/7)) {
+                      let opacityValue = 1 - (distance / 20000);
+                      ctx.strokeStyle = 'rgba(212, 175, 55,' + opacityValue * 0.2 + ')'; // Líneas doradas muy tenues
+                      ctx.lineWidth = 1;
+                      ctx.beginPath();
+                      ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                      ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                      ctx.stroke();
+                  }
+              }
+          }
+      }
+
+      // ===========================
+      // 8. GENERADOR DE TICKET VIP
+      // ===========================
+      function generateTicket() {
+          const nameInput = document.getElementById('vip-name').value.trim().toUpperCase();
+          const passInput = document.getElementById('vip-pass').value.trim();
+          const errorMsg = document.getElementById('vip-error');
+          const formDiv = document.getElementById('vip-form');
+          const resultDiv = document.getElementById('ticket-result');
+          const imgElement = document.getElementById('final-ticket-img');
+          const downloadLink = document.getElementById('download-link');
+
+          // Verificación de Contraseña
+          if (passInput !== "viajedesexo") {
+              errorMsg.classList.remove('hidden');
+              // Pequeña vibración en el formulario
+              formDiv.classList.add('animate-pulse'); 
+              setTimeout(() => formDiv.classList.remove('animate-pulse'), 500);
+              return;
+          }
+
+          if (nameInput === "") {
+              alert("Por favor, introduce tu nombre.");
+              return;
+          }
+
+          // Todo correcto: Generamos el Ticket con Canvas
+          errorMsg.classList.add('hidden');
+          
+          // Crear un canvas temporal en memoria
+          const tCanvas = document.createElement('canvas');
+          const tCtx = tCanvas.getContext('2d');
+          tCanvas.width = 600;
+          tCanvas.height = 350;
+
+          // 1. Fondo Dorado Premium
+          const gradient = tCtx.createLinearGradient(0, 0, 600, 350);
+          gradient.addColorStop(0, '#aa771c');
+          gradient.addColorStop(0.3, '#fffacD'); // Brillo
+          gradient.addColorStop(0.6, '#d4af37');
+          gradient.addColorStop(1, '#aa771c');
+          tCtx.fillStyle = gradient;
+          tCtx.fillRect(0, 0, 600, 350);
+
+          // 2. Marco Negro Interior
+          tCtx.fillStyle = '#0a0a0a';
+          tCtx.fillRect(10, 10, 580, 330);
+
+          // 3. Textos
+          tCtx.textAlign = 'center';
+          
+          // Título
+          tCtx.fillStyle = '#d4af37';
+          tCtx.font = 'bold 20px Montserrat';
+          tCtx.fillText('★ VIAJE DE S3X0 AWARDS 2025 ★', 300, 50);
+
+          // Nombre del Candidato (GRANDE)
+          tCtx.fillStyle = '#ffffff';
+          tCtx.font = 'bold 40px Playfair Display';
+          tCtx.shadowColor = "rgba(212, 175, 55, 0.8)";
+          tCtx.shadowBlur = 15;
+          tCtx.fillText(nameInput, 300, 140);
+          tCtx.shadowBlur = 0; // Reseteamos sombra
+
+          // Etiqueta VIP
+          tCtx.fillStyle = '#d4af37';
+          tCtx.font = 'tracking-widest 16px Montserrat';
+          tCtx.fillText('INVITADO DE HONOR', 300, 180);
+
+          // 4. Dibujar un QR Falso (Cuadrados aleatorios)
+          const qrSize = 80;
+          const qrX = 300 - (qrSize/2);
+          const qrY = 220;
+          
+          tCtx.fillStyle = 'white';
+          tCtx.fillRect(qrX - 5, qrY - 5, qrSize + 10, qrSize + 10); // Borde blanco QR
+          tCtx.fillStyle = 'black';
+          
+          // Patrón aleatorio simulando QR
+          for(let i=0; i<8; i++) {
+              for(let j=0; j<8; j++) {
+                  if(Math.random() > 0.5) {
+                      tCtx.fillRect(qrX + (i*10), qrY + (j*10), 10, 10);
+                  }
+              }
+          }
+          // Esquinas QR fijas (para que parezca real)
+          tCtx.fillRect(qrX, qrY, 20, 20);
+          tCtx.fillRect(qrX + 60, qrY, 20, 20);
+          tCtx.fillRect(qrX, qrY + 60, 20, 20);
+
+          // 5. Mostrar Resultado
+          imgElement.src = tCanvas.toDataURL('image/png');
+          downloadLink.href = tCanvas.toDataURL('image/png');
+          
+          formDiv.classList.add('hidden'); // Ocultar form
+          resultDiv.classList.remove('hidden'); // Mostrar ticket
+          
+          // Disparar confeti de celebración
+          fireConfetti();
+      }
+
+      initParticles();
+      animateParticles();
 
       // Countdown Lógica
       const targetDate = new Date("December 19, 2025 20:00:00").getTime();
