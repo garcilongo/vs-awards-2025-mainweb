@@ -188,11 +188,19 @@
         </button>
       </div>
 
-      <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-white/10 absolute w-full">
-         <div class="flex flex-col p-4 gap-4 text-center">
-            <a href="#rules" class="text-white font-display uppercase">Fases</a>
-            <a href="#nominees" class="text-white font-display uppercase">Candidatos</a>
-            <a href="#active-phase" class="text-gold font-bold uppercase" onclick="fireConfetti()">Participar</a>
+      <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-white/10 absolute w-full left-0 z-40">
+         <div class="flex flex-col p-6 gap-6 text-center items-center bg-black/95 backdrop-blur-xl">
+            <a href="#rules" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
+            <a href="#nominees" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Candidatos</a>
+            
+            <button id="music-btn-mobile" onclick="toggleMusic()" class="w-14 h-14 flex items-center justify-center gap-[3px] rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all" title="Reproducir/Pausar Música">
+                <span class="equalizer-bar h-3"></span>
+                <span class="equalizer-bar h-5"></span>
+                <span class="equalizer-bar h-6"></span>
+                <span class="equalizer-bar h-3"></span>
+            </button>
+
+            <a href="#active-phase" class="text-gold font-bold uppercase text-lg border border-gold px-6 py-2 rounded-full" onclick="fireConfetti(); document.getElementById('mobile-menu').classList.add('hidden')">Participar</a>
          </div>
       </div>
     </nav>
@@ -683,16 +691,22 @@
       // 5. MUSICA & COUNTDOWN
       // ===========================
       const audio = document.getElementById('bg-music');
-      const musicBtn = document.getElementById('music-btn-desktop');
+      // Seleccionamos ambos botones
+      const musicBtnDesktop = document.getElementById('music-btn-desktop');
+      const musicBtnMobile = document.getElementById('music-btn-mobile');
       let isPlaying = false;
 
       function toggleMusic() {
           if (!isPlaying) {
-              audio.play().catch(e => console.log(e));
-              musicBtn.classList.add('music-active');
+              audio.play().catch(e => console.log("Error audio:", e));
+              // Activamos animación en AMBOS botones si existen
+              if(musicBtnDesktop) musicBtnDesktop.classList.add('music-active');
+              if(musicBtnMobile) musicBtnMobile.classList.add('music-active');
           } else {
               audio.pause();
-              musicBtn.classList.remove('music-active');
+              // Desactivamos animación en AMBOS botones
+              if(musicBtnDesktop) musicBtnDesktop.classList.remove('music-active');
+              if(musicBtnMobile) musicBtnMobile.classList.remove('music-active');
           }
           isPlaying = !isPlaying;
       }
