@@ -925,103 +925,141 @@
           };
       }
 
-      // Función auxiliar para dibujar el canvas final
+      // Función auxiliar para dibujar el ticket final (V3: SIN LÍNEA DISCONTINUA)
       function drawFinalTicket(userImg, qrImg, displayName) {
           const tCanvas = document.createElement('canvas');
           const tCtx = tCanvas.getContext('2d');
           const width = 850;
-          const height = 320;
+          const height = 350;
           tCanvas.width = width;
           tCanvas.height = height;
 
-          // --- FONDO Y MARCO (Igual que antes) ---
-          tCtx.fillStyle = '#0F0F0F';
+          // --- 1. FONDO Y MARCO GENERAL ---
+          tCtx.fillStyle = '#0F0F0F'; // Negro mate
           tCtx.fillRect(0, 0, width, height);
-          for (let i = 0; i < 5000; i++) {
-              tCtx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.05})`;
-              tCtx.fillRect(Math.random() * width, Math.random() * height, 2, 2);
+          
+          // Textura de ruido sutil
+          for (let i = 0; i < 8000; i++) {
+              tCtx.fillStyle = `rgba(255, 215, 0, ${Math.random() * 0.04})`; 
+              tCtx.fillRect(Math.random() * width, Math.random() * height, 1.5, 1.5);
           }
+
+          // Gradiente para el marco
           const borderGrad = tCtx.createLinearGradient(0, 0, width, height);
-          borderGrad.addColorStop(0, '#aa771c'); borderGrad.addColorStop(0.5, '#fbf5b7'); borderGrad.addColorStop(1, '#aa771c');
-          tCtx.lineWidth = 4; tCtx.strokeStyle = borderGrad; tCtx.strokeRect(15, 15, width - 30, height - 30);
-          
-          // Esquinas
-          tCtx.fillStyle = borderGrad;
-          tCtx.fillRect(15, 15, 40, 4); tCtx.fillRect(15, 15, 4, 40);
-          tCtx.fillRect(width-55, 15, 40, 4); tCtx.fillRect(width-19, 15, 4, 40);
-          tCtx.fillRect(15, height-19, 40, 4); tCtx.fillRect(15, height-55, 4, 40);
-          tCtx.fillRect(width-55, height-19, 40, 4); tCtx.fillRect(width-19, height-55, 4, 40);
+          borderGrad.addColorStop(0, '#aa771c');
+          borderGrad.addColorStop(0.3, '#fbf5b7'); // Brillo
+          borderGrad.addColorStop(0.7, '#d4af37');
+          borderGrad.addColorStop(1, '#aa771c');
 
-          // Línea de corte
-          tCtx.beginPath(); tCtx.setLineDash([10, 10]); tCtx.moveTo(600, 15); tCtx.lineTo(600, height - 15);
-          tCtx.strokeStyle = 'rgba(212, 175, 55, 0.5)'; tCtx.stroke(); tCtx.setLineDash([]);
-
-          // --- ZONA IZQUIERDA: FOTO Y TEXTOS ---
-          
-          // 1. DIBUJAR FOTO DEL USUARIO (Izquierda)
-          const photoX = 50;
-          const photoY = 65;
-          const photoSize = 150;
-          
-          // Marco para la foto
+          // Marco principal
           tCtx.lineWidth = 3;
-          tCtx.strokeStyle = '#d4af37';
-          tCtx.strokeRect(photoX - 5, photoY - 5, photoSize + 10, photoSize + 10);
+          tCtx.strokeStyle = borderGrad;
+          tCtx.strokeRect(12, 12, width - 24, height - 24);
+
+          // --- 2. LÍNEA SEPARADORA (ELIMINADA) ---
+          // Mantenemos la variable 'splitX' solo para calcular posiciones, pero no dibujamos nada.
+          const splitX = 550; 
+
+          // --- 3. PANEL IZQUIERDO: TEXTOS ---
+          const textLeftMargin = 60;
+          tCtx.textAlign = 'left';
+
+          // Marca de agua de fondo
+          tCtx.save();
+          tCtx.translate(280, 175);
+          tCtx.rotate(-Math.PI / 16);
+          tCtx.font = '900 100px Montserrat';
+          tCtx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+          tCtx.textAlign = 'center';
+          tCtx.fillText('VIP ACCESS', 0, 0);
+          tCtx.restore();
+
+          // Header pequeño
+          tCtx.font = '700 12px Montserrat';
+          tCtx.fillStyle = '#d4af37'; 
+          tCtx.fillText('★ OFFICIAL ACCREDITATION', textLeftMargin, 60);
+
+          // Título Principal
+          tCtx.font = '900 36px Playfair Display';
+          tCtx.fillStyle = '#ffffff';
+          tCtx.fillText('VIAJE DE S3X0', textLeftMargin, 105);
+          tCtx.fillStyle = '#d4af37';
+          tCtx.fillText('AWARDS 2025', textLeftMargin + 270, 105);
+
+          // NOMBRE DEL CANDIDATO
+          tCtx.font = '900 52px Montserrat';
+          const nameGrad = tCtx.createLinearGradient(textLeftMargin, 0, textLeftMargin + 400, 0);
+          nameGrad.addColorStop(0, '#bf953f'); nameGrad.addColorStop(0.5, '#fffacd'); nameGrad.addColorStop(1, '#bf953f');
+          tCtx.fillStyle = nameGrad;
           
-          // Foto (recortada en cuadrado por si acaso)
-          // Usamos drawImage con 9 argumentos para hacer "object-cover"
+          if (displayName.length > 15) tCtx.font = '900 40px Montserrat';
+          tCtx.fillText(displayName, textLeftMargin, 185);
+
+          // Detalles inferiores
+          tCtx.font = '600 14px Montserrat';
+          tCtx.fillStyle = '#cccccc';
+          tCtx.fillText('STATUS: INVITADO DE HONOR', textLeftMargin, 235);
+          tCtx.fillText('DRESS CODE: ETIQUETA RIGUROSA', textLeftMargin, 260);
+
+          // Footer
+          tCtx.font = 'italic 400 11px Montserrat';
+          tCtx.fillStyle = '#888888';
+          tCtx.fillText('Este pase es personal e intransferible. Válido para la Gran Gala.', textLeftMargin, 310);
+
+
+          // --- 4. PANEL DERECHO: VISUALES ---
+          const rightPanelCenter = splitX + (width - splitX) / 2;
+          
+          // A) FOTO DEL USUARIO (Centrada Arriba)
+          const photoSize = 130; 
+          const photoY = 40;     
+
+          tCtx.save();
+          tCtx.shadowColor = 'rgba(212, 175, 55, 0.5)';
+          tCtx.shadowBlur = 20;
+          tCtx.lineWidth = 4;
+          tCtx.strokeStyle = borderGrad;
+          tCtx.strokeRect(rightPanelCenter - (photoSize/2), photoY, photoSize, photoSize);
+          tCtx.restore();
+
+          // Dibujar foto recortada
           const aspectRatio = userImg.width / userImg.height;
           let sourceWidth = userImg.width;
           let sourceHeight = userImg.height;
-          let sourceX = 0;
-          let sourceY = 0;
-          if (aspectRatio > 1) { sourceWidth = userImg.height; sourceX = (userImg.width - sourceWidth) / 2; } 
+          let sourceX = 0; let sourceY = 0;
+          if (aspectRatio > 1) { sourceWidth = userImg.height; sourceX = (userImg.width - sourceWidth) / 2; }
           else { sourceHeight = userImg.width; sourceY = (userImg.height - sourceHeight) / 2; }
-          tCtx.drawImage(userImg, sourceX, sourceY, sourceWidth, sourceHeight, photoX, photoY, photoSize, photoSize);
-
-          // 2. TEXTOS (A la derecha de la foto)
-          const textStartX = 230; // Donde empieza el texto ahora
-          tCtx.textAlign = 'left';
-
-          // Header
-          tCtx.font = 'bold 14px Montserrat'; tCtx.fillStyle = '#d4af37';
-          tCtx.fillText('★ OFFICIAL INVITATION', textStartX, 70);
-
-          // Título Evento
-          tCtx.font = 'bold 28px Playfair Display'; tCtx.fillStyle = '#ffffff';
-          tCtx.fillText('VIAJE DE S3X0', textStartX, 110);
-          tCtx.fillStyle = '#d4af37';
-          tCtx.fillText('AWARDS 2025', textStartX + 235, 110);
-
-          // Nombre del Usuario (GRANDE)
-          tCtx.font = 'bold 42px Montserrat';
-          const nameGrad = tCtx.createLinearGradient(textStartX, 0, textStartX + 300, 0);
-          nameGrad.addColorStop(0, '#bf953f'); nameGrad.addColorStop(0.5, '#fcf6ba'); nameGrad.addColorStop(1, '#bf953f');
-          tCtx.fillStyle = nameGrad;
-          // Ajustamos tamaño fuente si el nombre es muy largo
-          if(displayName.length > 12) tCtx.font = 'bold 32px Montserrat';
-          tCtx.fillText(displayName, textStartX, 170);
-
-          // Subtítulo
-          tCtx.font = '12px Montserrat'; tCtx.fillStyle = '#aaaaaa';
-          tCtx.fillText('CATEGORÍA: INVITADO DE HONOR', textStartX, 200);
-          tCtx.fillText('CÓDIGO DE VESTIMENTA: ETIQUETA', textStartX, 220);
           
-          // Footer Location
-          tCtx.font = 'italic 11px Montserrat'; tCtx.fillStyle = '#666';
-          tCtx.fillText('📍 Ubicación Secreta  |  📅 Dic 2025', textStartX, 260);
+          tCtx.drawImage(userImg, sourceX, sourceY, sourceWidth, sourceHeight, rightPanelCenter - (photoSize/2) + 2, photoY + 2, photoSize - 4, photoSize - 4);
 
-          // --- ZONA DERECHA (Stub) - IGUAL QUE ANTES ---
-          tCtx.drawImage(qrImg, 660, 50, 120, 120);
-          tCtx.lineWidth = 2; tCtx.strokeStyle = '#d4af37'; tCtx.strokeRect(655, 45, 130, 130);
-          const barcodeX = 660; const barcodeY = 200; const barcodeW = 120; const barcodeH = 60;
-          tCtx.fillStyle = 'white'; tCtx.fillRect(barcodeX - 5, barcodeY - 5, barcodeW + 10, barcodeH + 10);
-          tCtx.fillStyle = 'black';
-          let currentX = barcodeX; while(currentX < barcodeX + barcodeW) { let width = Math.floor(Math.random() * 4) + 1; if(currentX + width > barcodeX + barcodeW) break; tCtx.fillRect(currentX, barcodeY, width, barcodeH); currentX += width + Math.floor(Math.random() * 3) + 1; }
-          tCtx.font = '10px monospace'; tCtx.fillStyle = 'black'; tCtx.textAlign = 'center';
-          tCtx.fillText('VIP-' + displayName.substring(0,3) + '-S3X0', barcodeX + barcodeW/2, barcodeY + barcodeH + 12);
+          // B) CÓDIGO DE BARRAS (Subido para ocupar el espacio vacío)
+          const barcodeW = 160;
+          const barcodeH = 50;
+          const barcodeX = rightPanelCenter - (barcodeW/2);
+          const barcodeY = photoY + photoSize + 40; 
 
-          // MOSTRAR RESULTADO
+          // Fondo blanco del barcode
+          tCtx.fillStyle = '#ffffff'; 
+          tCtx.fillRect(barcodeX, barcodeY, barcodeW, barcodeH);
+          
+          // Líneas del barcode
+          tCtx.fillStyle = '#000000';
+          let currentX = barcodeX + 5;
+          while(currentX < barcodeX + barcodeW - 5) {
+              let w = Math.floor(Math.random() * 3) + 1;
+              // Asegurar que no se salga del ancho
+              if(currentX + w > barcodeX + barcodeW - 5) break;
+              tCtx.fillRect(currentX, barcodeY + 5, w, barcodeH - 10);
+              currentX += w + Math.floor(Math.random() * 4) + 1;
+          }
+
+          // ID de Texto
+          tCtx.textAlign = 'center';
+          tCtx.font = '700 11px monospace';
+          tCtx.fillStyle = '#d4af37';
+          tCtx.fillText(`VIP ID: ${displayName.substring(0,4).toUpperCase()}-2025-S3X0`, rightPanelCenter, barcodeY + barcodeH + 20);
+
+          // --- FINALIZAR ---
           document.getElementById('final-ticket-img').src = tCanvas.toDataURL('image/png');
           document.getElementById('download-link').href = tCanvas.toDataURL('image/png');
           document.getElementById('vip-form').classList.add('hidden');
