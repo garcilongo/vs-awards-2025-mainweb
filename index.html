@@ -1057,7 +1057,7 @@
           tCtx.textAlign = 'center';
           tCtx.font = '700 11px monospace';
           tCtx.fillStyle = '#d4af37';
-          tCtx.fillText(`VIP ID: ${displayName.substring(0,4).toUpperCase()}-2025-S3X0`, rightPanelCenter, barcodeY + barcodeH + 20);
+          tCtx.fillText(`VIP ID: ${displayName.toUpperCase()}`, rightPanelCenter, barcodeY + barcodeH + 20);
 
           // --- FINALIZAR ---
           document.getElementById('final-ticket-img').src = tCanvas.toDataURL('image/png');
