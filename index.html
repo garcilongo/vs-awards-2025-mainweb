@@ -182,7 +182,7 @@
         <div class="hidden md:flex items-center gap-6">
             <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Fases</a>
             <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Candidatos</a>
-            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Foto Grupal</a>
+            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Recuerdos</a>
             
             <button id="music-btn-desktop" onclick="toggleMusic()" class="w-10 h-10 flex items-center justify-center gap-[2px] rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all hover-trigger" title="Reproducir/Pausar Música">
                 <span class="equalizer-bar h-2"></span>
@@ -209,7 +209,7 @@
          <div class="flex flex-col p-6 gap-6 text-center items-center bg-black/95 backdrop-blur-xl">
             <a href="#rules" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
             <a href="#nominees" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Candidatos</a>
-            <a href="#group-photo" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Foto Grupal</a>
+            <a href="#group-photo" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Recuerdos</a>
             
             <button id="music-btn-mobile" onclick="toggleMusic()" class="w-14 h-14 flex items-center justify-center gap-[3px] rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all" title="Reproducir/Pausar Música">
                 <span class="equalizer-bar h-3"></span>
@@ -656,14 +656,17 @@
 
         <div class="w-full relative fade-mask group">
             
-            <div class="flex gap-6 animate-scroll-memories group-hover:[animation-play-state:paused] py-4">
+            <div class="flex gap-6 animate-scroll-memories py-4">
                 
                 <div class="flex gap-6">
                     <img src="fotos/footer1.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer2.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer3.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer2.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer3.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    
                     <img src="fotos/footer4.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer5.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    
+                    <img src="fotos/footer5.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    
                     <img src="fotos/footer6.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer7.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer8.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
@@ -675,10 +678,10 @@
 
                 <div class="flex gap-6">
                     <img src="fotos/footer1.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer2.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer3.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer2.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer3.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer4.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer5.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer5.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer6.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer7.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
                     <img src="fotos/footer8.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:scale-[1.02] transition-transform duration-500">
