@@ -616,8 +616,8 @@
              </div>
              <h2 class="text-4xl md:text-6xl font-display font-bold mb-6 text-white uppercase">Propón tus Categorías</h2>
              <p class="text-neutral-300 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                ¿Crees que falta algún premio esencial? ¿Alguien hizo algo legendario que merece ser reconocido? 
-                <br/><strong class="text-gold">Ayúdanos a definir la gala.</strong>
+                ¿Crees que falta algún premio esencial? ¿Alguien ha hecho algo legendario que merece ser reconocido? 
+                <br/><strong class="text-gold">Ayúdanos a mejorar la gala.</strong>
              </p>
              <div class="glass-panel p-8 md:p-12 rounded-xl border border-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.1)] mt-12">
                 <i data-lucide="clipboard-edit" class="w-12 h-12 text-gold mx-auto mb-6"></i>
@@ -680,13 +680,71 @@
         </div>
     </section>
 
-    <footer class="py-12 bg-black border-t border-white/10 text-center relative z-10">
-        <div class="flex flex-col items-center gap-4">
-           <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer hover-trigger" onclick="window.scrollTo(0,0)">
-             <img src="fotos/logo.png" class="w-6 h-6 grayscale">
-             <span class="font-display font-bold text-sm tracking-[0.2em] text-white">VIAJE DE S3X0 AWARDS</span>
-           </div>
-           <p class="text-[10px] text-neutral-600 font-sans uppercase tracking-wider">© 2025 Comité Organizador.</p>
+    <footer class="relative bg-[#050505] pt-20 pb-12 overflow-hidden border-t border-white/5">
+        
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[250px] bg-gold/5 blur-[90px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+                
+                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-4 order-2 md:order-1">
+                    <a href="#hero" onclick="window.scrollTo(0,0)" class="group flex items-center gap-3 cursor-pointer">
+                        <img src="fotos/logo.png" class="w-10 h-10 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                        <div class="flex flex-col">
+                            <span class="font-display font-bold text-sm tracking-[0.2em] text-white group-hover:text-gold transition-colors">
+                                VIAJE DE S3X0
+                            </span>
+                            <span class="font-display font-bold text-xs tracking-[0.4em] text-gold/80">
+                                AWARDS 2025
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex justify-center order-1 md:order-2 mb-8 md:mb-0">
+                    <div class="relative w-64 h-32 flex items-center justify-center group perspective-container">
+                        
+                        <div class="absolute left-2 transform -rotate-12 scale-90 hover:rotate-[-15deg] hover:scale-95 transition-all duration-500 z-0 hover:z-20">
+                            <div class="w-24 h-24 rounded-xl overflow-hidden border border-gold/30 bg-black shadow-lg">
+                                <img src="fotos/footer2.jpeg" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity">
+                            </div>
+                        </div>
+
+                        <div class="absolute right-2 transform rotate-12 scale-90 hover:rotate-[15deg] hover:scale-95 transition-all duration-500 z-0 hover:z-20">
+                            <div class="w-24 h-24 rounded-xl overflow-hidden border border-gold/30 bg-black shadow-lg">
+                                <img src="fotos/footer3.jpeg" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity">
+                            </div>
+                        </div>
+
+                        <div class="absolute z-10 transform hover:scale-110 transition-transform duration-500">
+                            <div class="w-28 h-28 rounded-2xl overflow-hidden border-2 border-gold/50 bg-black shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                                <img src="fotos/footer1.jpg" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end text-center md:text-right space-y-3 order-3">
+                    
+                    <div>
+                        <p class="text-white font-display font-bold text-sm uppercase tracking-wider">
+                            © 2025 Comité Organizador
+                        </p>
+                        <p class="text-neutral-500 text-[10px] uppercase tracking-widest mt-1">
+                            Todos los derechos reservados
+                        </p>
+                    </div>
+
+                    <div class="w-12 h-px bg-white/10"></div>
+
+                    <p class="text-gold/60 text-[10px] font-sans italic max-w-[250px] leading-relaxed">
+                        "Queda prohibida la reproducción total o parcial de los hechos ocurridos en la gala sin la presencia de un abogado o una cerveza."
+                    </p>
+                </div>
+
+            </div>
         </div>
     </footer>
 
