@@ -294,66 +294,68 @@
             <div class="relative">
                 <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:-ml-0.5 bg-gradient-to-b from-transparent via-gold/50 to-transparent shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
 
-                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                <div id="phase-0" class="relative flex flex-col md:flex-row items-center mb-20 reveal group transition-all duration-500 opacity-50">
                     <div class="md:w-1/2 flex justify-end px-4 md:pr-12 md:text-right order-2 md:order-1 pl-16">
-                        <div class="glass-panel p-6 rounded-xl border border-gold/40 shadow-[0_0_30px_rgba(212,175,55,0.15)] relative bg-gold/5">
-                            <div class="absolute -top-3 right-4 md:right-auto md:-right-3 bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
-                            
-                            <h3 class="text-2xl font-display font-bold text-gold mb-2">Fase 0: Categorías</h3>
+                        <div class="phase-card glass-panel p-6 rounded-xl border border-white/5 relative transition-colors duration-500">
+                            <div class="badge-container absolute -top-3 right-4 md:right-auto md:-right-3 hidden">
+                                <div class="bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
+                            </div>
+                            <h3 class="phase-title text-2xl font-display font-bold text-white mb-2">Fase 0: Categorías</h3>
                             <p class="text-neutral-300 text-sm leading-relaxed">
                                 Momento de la creatividad: propuesta de categorías sobre las cuales se realizará la selección definitiva.
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black border-2 border-gold shadow-[0_0_20px_rgba(212,175,55,0.8)] z-20 order-1 md:order-2">
-                        <i data-lucide="sparkles" class="w-5 h-5 text-gold"></i>
+                    <div class="phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 z-20 order-1 md:order-2">
+                        <div class="dot w-2 h-2 bg-neutral-500 rounded-full"></div>
                     </div>
-
                     <div class="md:w-1/2 order-3"></div>
                 </div>
 
-                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                <div id="phase-1" class="relative flex flex-col md:flex-row items-center mb-20 reveal group transition-all duration-500 opacity-50">
                     <div class="md:w-1/2 order-2 md:order-1"></div>
-                    
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
-                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    <div class="phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 z-20">
+                         <div class="dot w-2 h-2 bg-neutral-500 rounded-full"></div>
                     </div>
-
                     <div class="md:w-1/2 flex justify-start px-4 md:pl-12 order-3 pl-16">
-                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
-                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 1: Candidatos</h3>
+                        <div class="phase-card glass-panel p-6 rounded-xl border border-white/5 relative transition-colors duration-500">
+                             <div class="badge-container absolute -top-3 left-4 md:left-auto md:-left-3 hidden">
+                                <div class="bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
+                            </div>
+                            <h3 class="phase-title text-xl font-display font-bold text-white">Fase 1: Candidatos</h3>
                             <p class="text-neutral-400 text-sm mt-2">Presentación oficial de los aspirantes a llevarse el oro en cada categoría establecida.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                <div id="phase-2" class="relative flex flex-col md:flex-row items-center mb-20 reveal group transition-all duration-500 opacity-50">
                      <div class="md:w-1/2 flex justify-end px-4 md:pr-12 md:text-right order-2 md:order-1 pl-16">
-                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
-                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 2: Votación Global</h3>
-                            <p class="text-neutral-400 text-sm mt-2">La democracia habla: primera votación de la cual saldrán los nominados oficiales a cada categoría.</p>
+                        <div class="phase-card glass-panel p-6 rounded-xl border border-white/5 relative transition-colors duration-500">
+                             <div class="badge-container absolute -top-3 right-4 md:right-auto md:-right-3 hidden">
+                                <div class="bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
+                            </div>
+                            <h3 class="phase-title text-xl font-display font-bold text-white">Fase 2: Votación Global</h3>
+                            <p class="text-neutral-400 text-sm mt-2">La democracia habla: primera votación de la cual saldrán los nominados oficiales.</p>
                         </div>
                     </div>
-
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
-                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    <div class="phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 z-20">
+                         <div class="dot w-2 h-2 bg-neutral-500 rounded-full"></div>
                     </div>
-
                     <div class="md:w-1/2 order-3"></div>
                 </div>
 
-                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                <div id="phase-3" class="relative flex flex-col md:flex-row items-center mb-20 reveal group transition-all duration-500 opacity-50">
                     <div class="md:w-1/2 order-2 md:order-1"></div>
-                    
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
-                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    <div class="phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 z-20">
+                         <div class="dot w-2 h-2 bg-neutral-500 rounded-full"></div>
                     </div>
-
                     <div class="md:w-1/2 flex justify-start px-4 md:pl-12 order-3 pl-16">
-                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
-                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 3: La Gran Final</h3>
-                            <p class="text-neutral-400 text-sm mt-2">Escrutinio final entre los finalistas definitivos de las categorías elegidas.</p>
+                        <div class="phase-card glass-panel p-6 rounded-xl border border-white/5 relative transition-colors duration-500">
+                             <div class="badge-container absolute -top-3 left-4 md:left-auto md:-left-3 hidden">
+                                <div class="bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
+                            </div>
+                            <h3 class="phase-title text-xl font-display font-bold text-white">Fase 3: La Gran Final</h3>
+                            <p class="text-neutral-400 text-sm mt-2">Escrutinio final entre los finalistas definitivos.</p>
                         </div>
                     </div>
                 </div>
@@ -362,7 +364,6 @@
                     <div class="mx-auto w-20 h-20 bg-gradient-to-br from-gold via-yellow-300 to-gold rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.6)] relative z-20 mb-8 animate-pulse-slow">
                         <i data-lucide="trophy" class="w-10 h-10 text-black"></i>
                     </div>
-                    
                     <div class="glass-panel inline-block p-8 md:p-12 rounded-2xl border border-gold shadow-[0_0_30px_rgba(212,175,55,0.1)] bg-black/80 backdrop-blur-xl max-w-2xl mx-auto">
                          <h3 class="text-3xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold via-white to-gold mb-4 uppercase tracking-wider">
                             Gran Gala & <br/> Amigo Invisible
@@ -373,7 +374,6 @@
                          </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -624,19 +624,22 @@
         <div class="absolute inset-0 bg-gold/5 blur-[100px] rounded-full opacity-20 pointer-events-none"></div>
         <div class="max-w-4xl mx-auto text-center relative z-10 reveal">
              <div class="inline-block border border-gold px-4 py-1 rounded-full mb-6">
-                <span class="text-gold text-xs font-bold tracking-widest uppercase animate-pulse">● Zona de Votación Activa</span>
+                <span id="active-badge" class="text-gold text-xs font-bold tracking-widest uppercase animate-pulse">● Zona de Votación Activa</span>
              </div>
-             <h2 class="text-4xl md:text-6xl font-display font-bold mb-6 text-white uppercase">Propón tus Categorías</h2>
-             <p class="text-neutral-300 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                ¿Crees que falta algún premio esencial? ¿Alguien ha hecho algo legendario que merece ser reconocido? 
-                <br/><strong class="text-gold">Ayúdanos a mejorar la gala.</strong>
-             </p>
+             
+             <h2 id="active-title" class="text-4xl md:text-6xl font-display font-bold mb-6 text-white uppercase transition-all duration-500">
+                 </h2>
+             <p id="active-desc" class="text-neutral-300 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed transition-all duration-500">
+                 </p>
+
              <div class="glass-panel p-8 md:p-12 rounded-xl border border-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.1)] mt-12">
                 <i data-lucide="clipboard-edit" class="w-12 h-12 text-gold mx-auto mb-6"></i>
-                <h3 class="text-2xl font-display font-bold text-white mb-2">Formulario Oficial - Fase 0</h3>
-                <p class="text-neutral-400 mb-8 text-sm">Este enlace te llevará al formulario seguro de Google Forms.</p>
-                <a href="https://forms.gle/Ye9RqVAjX1f2t7G39" target="_blank" class="btn-gold px-8 py-4 rounded-sm text-sm uppercase tracking-widest inline-flex items-center gap-2 hover-trigger">
-                    ABRIR FORMULARIO DE PROPUESTAS <i data-lucide="external-link" class="w-4 h-4"></i>
+                <h3 id="active-form-title" class="text-2xl font-display font-bold text-white mb-2">
+                    </h3>
+                <p class="text-neutral-400 mb-8 text-sm">El siguiente enlace te llevará al formulario oficial totalmente seguro.</p>
+                
+                <a id="active-link" href="#" target="_blank" class="btn-gold px-8 py-4 rounded-sm text-sm uppercase tracking-widest inline-flex items-center gap-2 hover-trigger">
+                    ACCEDER A LA VOTACIÓN <i data-lucide="external-link" class="w-4 h-4"></i>
                 </a>
              </div>
         </div>
@@ -1302,6 +1305,113 @@
           const innerCard = element.querySelector('.flip-card-inner');
           innerCard.classList.toggle('flipped');
       }
+    </script>
+
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN DE FASES (EL CEREBRO)
+        // ==========================================
+        
+        // ¡CAMBIA ESTE NÚMERO PARA ACTUALIZAR TODA LA WEB!
+        // 0 = Fase Categorías
+        // 1 = Fase Candidatos
+        // 2 = Fase Votación Global
+        // 3 = Gran Final
+        const CURRENT_PHASE = 0; 
+
+        // Configuración de textos y enlaces para la sección de votación (#active-phase)
+        const phasesConfig = [
+            {
+                // FASE 0
+                title: "Propón tus Categorías",
+                desc: "¿Crees que falta algún premio esencial? Ayúdanos a definir las batallas.",
+                formTitle: "Formulario Fase 0: Propuestas",
+                link: "https://forms.gle/iPWTAhVhqNSc3BV98" // Enlace Fase 0
+            },
+            {
+                // FASE 1
+                title: "Elección de Candidatos",
+                desc: "Las categorías están listas. Ahora te toca decidir quiénes merecen luchar por el oro en cada una de ellas.",
+                formTitle: "Formulario Fase 1: Nominación",
+                link: "https://forms.gle/TU_ENLACE_FASE_1_AQUI" // <--- PON AQUÍ TU LINK DE LA FASE 1
+            },
+            {
+                // FASE 2
+                title: "Votación Global",
+                desc: "Los nominados oficiales están sobre la mesa. La democracia comienza ahora. Elige sabiamente.",
+                formTitle: "Formulario Fase 2: Votación",
+                link: "https://forms.gle/TU_ENLACE_FASE_2_AQUI"
+            },
+            {
+                // FASE 3
+                title: "La Gran Final",
+                desc: "Todo está decidido. Nos vemos en la ubicación secreta.",
+                formTitle: "Información del Evento",
+                link: "#hero"
+            }
+        ];
+
+        function updatePhaseSystem() {
+            // 1. ACTUALIZAR CRONOGRAMA
+            for (let i = 0; i <= 3; i++) {
+                const phaseEl = document.getElementById(`phase-${i}`);
+                if (!phaseEl) continue;
+
+                const card = phaseEl.querySelector('.phase-card');
+                const title = phaseEl.querySelector('.phase-title');
+                const iconContainer = phaseEl.querySelector('.phase-icon');
+                const badge = phaseEl.querySelector('.badge-container');
+
+                // Resetear clases base
+                phaseEl.classList.remove('opacity-50', 'opacity-100');
+                card.classList.remove('bg-gold/5', 'border-gold/40', 'shadow-[0_0_30px_rgba(212,175,55,0.15)]');
+                title.classList.remove('text-gold', 'text-white');
+                iconContainer.innerHTML = ''; // Limpiar icono
+                badge.classList.add('hidden'); // Ocultar badge por defecto
+
+                if (i < CURRENT_PHASE) {
+                    // === FASE PASADA (COMPLETADA) ===
+                    phaseEl.classList.add('opacity-100'); // Visible pero no brillante
+                    title.classList.add('text-gold'); // Texto dorado
+                    // Icono de Check
+                    iconContainer.className = "phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-gold z-20";
+                    iconContainer.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-gold"></i>';
+                
+                } else if (i === CURRENT_PHASE) {
+                    // === FASE ACTUAL (ACTIVA) ===
+                    phaseEl.classList.add('opacity-100');
+                    card.classList.add('bg-gold/5', 'border-gold/40', 'shadow-[0_0_30px_rgba(212,175,55,0.15)]');
+                    title.classList.add('text-gold');
+                    badge.classList.remove('hidden'); // Mostrar "EN CURSO"
+                    
+                    // Icono Brillante Grande
+                    iconContainer.className = "phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black border-2 border-gold shadow-[0_0_20px_rgba(212,175,55,0.8)] z-20";
+                    iconContainer.innerHTML = '<i data-lucide="sparkles" class="w-5 h-5 text-gold"></i>';
+
+                } else {
+                    // === FASE FUTURA ===
+                    phaseEl.classList.add('opacity-50');
+                    title.classList.add('text-white');
+                    // Icono Punto Gris
+                    iconContainer.className = "phase-icon absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 z-20";
+                    iconContainer.innerHTML = '<div class="dot w-2 h-2 bg-neutral-500 rounded-full"></div>';
+                }
+            }
+            // Refrescar iconos Lucide recién inyectados
+            lucide.createIcons();
+
+            // 2. ACTUALIZAR SECCIÓN DE VOTACIÓN (#active-phase)
+            const config = phasesConfig[CURRENT_PHASE];
+            if (config) {
+                document.getElementById('active-title').innerText = config.title;
+                document.getElementById('active-desc').innerText = config.desc;
+                document.getElementById('active-form-title').innerText = config.formTitle;
+                document.getElementById('active-link').href = config.link;
+            }
+        }
+
+        // Ejecutar al cargar la página
+        document.addEventListener('DOMContentLoaded', updatePhaseSystem);
     </script>
 </body>
 </html>
