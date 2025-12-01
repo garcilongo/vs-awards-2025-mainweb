@@ -42,104 +42,116 @@
     </script>
 
     <style>
-      body { background-color: #0a0a0a; color: #ffffff; cursor: none; /* Ocultamos cursor nativo */ }
-      
-      /* --- Cursor Personalizado (MODIFICADO) --- */
-      #custom-cursor {
-        position: fixed;
-        top: 0; left: 0;
-        width: 20px; height: 20px;
-        border: 1px solid #d4af37;
-        /* Color base más sólido */
-        background-color: rgba(212, 175, 55, 0.2); 
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        transition: transform 0.1s ease, width 0.3s, height 0.3s, background-color 0.3s;
-        /* Eliminamos backdrop-filter para quitar el efecto de difuminado/borroso */
-        /* backdrop-filter: blur(2px); */
-      }
-      #custom-cursor.hovered {
-        width: 50px; height: 50px;
-        /* Mantenemos la misma opacidad (0.2) en lugar de bajarla a 0.05 */
-        background-color: rgba(212, 175, 55, 0.2); 
-        border-color: #fedc56;
-      }
-      #cursor-dot {
-        position: fixed;
-        top: 0; left: 0;
-        width: 4px; height: 4px;
-        background-color: #d4af37;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 10000;
-        transform: translate(-50%, -50%);
-      }
+        /* --- 1. ESTILOS BASE Y CURSOR --- */
+        body { 
+            background-color: #0a0a0a; 
+            color: #ffffff; 
+            /* Por defecto ocultamos el cursor nativo SOLO en PC */
+            cursor: none; 
+        }
 
-      /* --- Textos y Botones --- */
-      .text-gold-gradient {
-        background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-        -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 3s linear infinite;
-      }
-      .btn-gold {
-        background: linear-gradient(45deg, #bf953f, #fbf5b7, #aa771c);
-        color: #000; font-weight: 700; letter-spacing: 0.1em; transition: all 0.3s ease; position: relative; overflow: hidden;
-      }
-      .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
-      .glass-panel {
-        background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-      }
-      .scrollbar-hide::-webkit-scrollbar { display: none; }
-      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-      
-      @keyframes shine { to { background-position: 200% center; } }
+        /* En Móviles/Tablets (pantallas táctiles): Restauramos cursor nativo y ocultamos el personalizado */
+        @media (hover: none) and (pointer: coarse) {
+            body { cursor: auto !important; }
+            #custom-cursor, #cursor-dot { display: none !important; }
+        }
 
-      /* --- Visualizador de Audio (Ecualizador) --- */
-      .equalizer-bar {
-        background-color: #d4af37;
-        width: 3px;
-        height: 100%;
-        border-radius: 2px;
-        animation: none;
-      }
-      .music-active .equalizer-bar {
-        animation: equalizer-anim 0.8s infinite ease-in-out;
-      }
-      .music-active .equalizer-bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
-      .music-active .equalizer-bar:nth-child(2) { animation-delay: 0.3s; height: 80%; }
-      .music-active .equalizer-bar:nth-child(3) { animation-delay: 0.5s; height: 50%; }
-      .music-active .equalizer-bar:nth-child(4) { animation-delay: 0.2s; height: 30%; }
+        /* Estilos del Cursor Personalizado */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 1px solid #d4af37; background-color: rgba(212, 175, 55, 0.2); 
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: transform 0.1s ease, width 0.3s, height 0.3s;
+        }
+        #custom-cursor.hovered { width: 50px; height: 50px; background-color: rgba(212, 175, 55, 0.2); border-color: #fedc56; }
+        #cursor-dot {
+            position: fixed; top: 0; left: 0; width: 4px; height: 4px;
+            background-color: #d4af37; border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
 
-      @keyframes equalizer-anim {
-        0% { height: 20%; }
-        50% { height: 100%; }
-        100% { height: 20%; }
-      }
+        /* --- 2. CONFIGURACIÓN DEL CARRUSEL DE RECUERDOS (Responsive) --- */
+        
+        /* Definición de la animación */
+        @keyframes scroll-memories {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
-      /* --- Efecto Flip Card --- */
-      .perspective-container { perspective: 1000px; }
-      .flip-card-inner {
-        position: relative; width: 100%; height: 100%;
-        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform-style: preserve-3d;
-      }
-      .flip-card-inner.flipped { transform: rotateY(180deg); }
-      .flip-card-front, .flip-card-back {
-        position: absolute; width: 100%; height: 100%;
-        -webkit-backface-visibility: hidden; backface-visibility: hidden;
-        top: 0; left: 0;
-      }
-      .flip-card-back {
-        transform: rotateY(180deg);
-        background-color: #121212;
-        display: flex; flex-direction: column; justify-content: center;
-        padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);
-      }
+        /* MÁSCARA DE DIFUMINADO (Se ve bien tanto en móvil como en PC) */
+        .fade-mask {
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
 
-      /* --- Scroll Reveal Classes --- */
-      .reveal { opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
-      .reveal.active { opacity: 1; transform: translateY(0); }
+        /* CLASE PRINCIPAL DEL CARRUSEL */
+        .animate-scroll-memories {
+            display: flex;
+            gap: 1.5rem; /* equivale a gap-6 */
+        }
+
+        /* --- COMPORTAMIENTO MÓVIL (Por defecto) --- */
+        /* Scroll manual, sin animación automática */
+        .animate-scroll-memories {
+            overflow-x: auto; /* Permite deslizar con el dedo */
+            width: 100%;
+            scroll-snap-type: x mandatory; /* Efecto imán al soltar */
+            padding-bottom: 20px; /* Espacio para que no corte la sombra */
+            /* Ocultar barra de scroll fea */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        .animate-scroll-memories::-webkit-scrollbar { display: none; }
+
+        /* --- COMPORTAMIENTO ESCRITORIO (Pantallas > 768px) --- */
+        /* Activamos la animación infinita y quitamos el scroll manual */
+        @media (min-width: 768px) {
+            .animate-scroll-memories {
+                animation: scroll-memories 80s linear infinite; /* Animación activa */
+                width: max-content; /* Ancho infinito */
+                overflow-x: visible;
+                scroll-snap-type: none;
+                padding-bottom: 0;
+            }
+        }
+
+        /* --- OTROS ESTILOS (Botones, Textos, etc) --- */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 3s linear infinite;
+        }
+        .btn-gold {
+            background: linear-gradient(45deg, #bf953f, #fbf5b7, #aa771c);
+            color: #000; font-weight: 700; letter-spacing: 0.1em; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Ecualizador */
+        .equalizer-bar { background-color: #d4af37; width: 3px; height: 100%; border-radius: 2px; animation: none; }
+        .music-active .equalizer-bar { animation: equalizer-anim 0.8s infinite ease-in-out; }
+        .music-active .equalizer-bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
+        .music-active .equalizer-bar:nth-child(2) { animation-delay: 0.3s; height: 80%; }
+        .music-active .equalizer-bar:nth-child(3) { animation-delay: 0.5s; height: 50%; }
+        .music-active .equalizer-bar:nth-child(4) { animation-delay: 0.2s; height: 30%; }
+        @keyframes equalizer-anim { 0% { height: 20%; } 50% { height: 100%; } 100% { height: 20%; } }
+
+        /* Flip Card */
+        .perspective-container { perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+        .flip-card-inner.flipped { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; top: 0; left: 0; }
+        .flip-card-back { transform: rotateY(180deg); background-color: #121212; display: flex; flex-direction: column; justify-content: center; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-black overflow-x-hidden">
@@ -165,9 +177,9 @@
         </a>
 
         <div class="hidden md:flex items-center gap-6">
-            <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Fases</a>
+            <a href="#rules" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Cronograma</a>
             <a href="#nominees" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Candidatos</a>
-            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Foto Grupal</a>
+            <a href="#group-photo" class="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-gold transition-colors hover-trigger">Recuerdos</a>
             
             <button id="music-btn-desktop" onclick="toggleMusic()" class="w-10 h-10 flex items-center justify-center gap-[2px] rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all hover-trigger" title="Reproducir/Pausar Música">
                 <span class="equalizer-bar h-2"></span>
@@ -192,9 +204,9 @@
 
       <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-white/10 absolute w-full left-0 z-40">
          <div class="flex flex-col p-6 gap-6 text-center items-center bg-black/95 backdrop-blur-xl">
-            <a href="#rules" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Fases</a>
+            <a href="#rules" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Cronograma</a>
             <a href="#nominees" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Candidatos</a>
-            <a href="#group-photo" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Foto Grupal</a>
+            <a href="#group-photo" class="text-white font-display uppercase text-lg" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Recuerdos</a>
             
             <button id="music-btn-mobile" onclick="toggleMusic()" class="w-14 h-14 flex items-center justify-center gap-[3px] rounded-full border border-gold/50 text-gold hover:bg-gold/10 transition-all" title="Reproducir/Pausar Música">
                 <span class="equalizer-bar h-3"></span>
@@ -270,65 +282,98 @@
         </div>
     </section>
 
-    <section id="rules" class="py-24 px-6 bg-transparent relative">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                 <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4 block">El Proceso</span>
-                 <h2 class="text-4xl md:text-5xl font-display font-bold text-white uppercase">Fases del Evento</h2>
+    <section id="rules" class="py-32 px-4 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-20 reveal">
+                 <span class="text-gold text-xs font-bold tracking-[0.4em] uppercase mb-4 block animate-pulse">Hoja de Ruta</span>
+                 <h2 class="text-4xl md:text-6xl font-display font-bold text-white uppercase drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">El Camino a la Gloria</h2>
             </div>
 
-            <div class="relative space-y-12">
-                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent"></div>
+            <div class="relative">
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:-ml-0.5 bg-gradient-to-b from-transparent via-gold/50 to-transparent shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
 
-                <div class="relative flex flex-col md:flex-row gap-8 items-center reveal">
-                    <div class="md:w-1/2 md:text-right order-2 md:order-1 pl-12 md:pl-0 md:pr-12">
-                        <span class="bg-gold text-black text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">EN CURSO</span>
-                        <h3 class="text-2xl font-display font-bold text-white">Fase 0: Categorías</h3>
-                        <p class="text-sm text-neutral-400 mt-2">Propuesta de categorías sobre las cuales se realizará la selección definitiva.</p>
+                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                    <div class="md:w-1/2 flex justify-end px-4 md:pr-12 md:text-right order-2 md:order-1 pl-16">
+                        <div class="glass-panel p-6 rounded-xl border border-gold/40 shadow-[0_0_30px_rgba(212,175,55,0.15)] relative bg-gold/5">
+                            <div class="absolute -top-3 right-4 md:right-auto md:-right-3 bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_#d4af37] animate-pulse">EN CURSO</div>
+                            
+                            <h3 class="text-2xl font-display font-bold text-gold mb-2">Fase 0: Categorías</h3>
+                            <p class="text-neutral-300 text-sm leading-relaxed">
+                                Momento de la creatividad: propuesta de categorías sobre las cuales se realizará la selección definitiva.
+                            </p>
+                        </div>
                     </div>
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-gold rounded-full shadow-[0_0_15px_rgba(212,175,55,1)] z-10"></div>
-                    <div class="md:w-1/2 order-3"></div>
-                </div>
-
-                <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity reveal">
-                    <div class="md:w-1/2 order-2 md:order-1"></div>
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
-                    <div class="md:w-1/2 pl-12 md:pl-12 order-3 md:order-3">
-                        <h3 class="text-xl font-display font-bold text-white">Fase 1: Candidatos</h3>
-                        <p class="text-sm text-neutral-400 mt-2">Presentación de candidatos a ganar en cada categoría establecida.</p>
-                    </div>
-                </div>
-
-                <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity reveal">
-                    <div class="md:w-1/2 md:text-right order-2 md:order-1 pl-12 md:pl-0 md:pr-12">
-                         <h3 class="text-xl font-display font-bold text-white">Fase 2: Votación Global</h3>
-                        <p class="text-sm text-neutral-400 mt-2">Primera votación de la cual saldrán los nominados oficiales.</p>
-                    </div>
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
-                    <div class="md:w-1/2 order-3"></div>
-                </div>
-
-                 <div class="relative flex flex-col md:flex-row gap-8 items-center opacity-50 hover:opacity-100 transition-opacity reveal">
-                    <div class="md:w-1/2 order-2 md:order-1"></div>
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-neutral-700 border border-neutral-500 rounded-full z-10"></div>
-                    <div class="md:w-1/2 pl-12 md:pl-12 order-3 md:order-3">
-                        <h3 class="text-xl font-display font-bold text-white">Fase 3: La Gran Final</h3>
-                        <p class="text-sm text-neutral-400 mt-2">Escrutinio final entre los finalistas.</p>
-                    </div>
-                </div>
-
-                <div class="relative flex flex-col md:flex-row gap-8 items-center pt-16 md:pt-12 reveal">
                     
-                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-black border-2 border-gold rounded-full z-10 flex items-center justify-center">
-                        <i data-lucide="trophy" class="w-4 h-4 text-gold"></i>
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black border-2 border-gold shadow-[0_0_20px_rgba(212,175,55,0.8)] z-20 order-1 md:order-2">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-gold"></i>
                     </div>
 
-                    <div class="w-full text-center pl-12 md:pl-0 flex flex-col items-center">
-                         <h3 class="text-2xl font-display font-bold text-gold uppercase">Gran Gala & Amigo Invisible</h3>
-                         <p class="text-xs uppercase tracking-widest text-white mt-1">Fecha: 19 de Diciembre de 2025</p>
-                         <p class="text-xs uppercase tracking-widest text-white mt-1">Ubicación: Por determinar</p>
+                    <div class="md:w-1/2 order-3"></div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                    <div class="md:w-1/2 order-2 md:order-1"></div>
+                    
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
+                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    </div>
+
+                    <div class="md:w-1/2 flex justify-start px-4 md:pl-12 order-3 pl-16">
+                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
+                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 1: Candidatos</h3>
+                            <p class="text-neutral-400 text-sm mt-2">Presentación oficial de los aspirantes a llevarse el oro en cada categoría establecida.</p>
+                        </div>
                     </div>
                 </div>
+
+                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                     <div class="md:w-1/2 flex justify-end px-4 md:pr-12 md:text-right order-2 md:order-1 pl-16">
+                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
+                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 2: Votación Global</h3>
+                            <p class="text-neutral-400 text-sm mt-2">La democracia habla: primera votación de la cual saldrán los nominados oficiales a cada categoría.</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
+                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    </div>
+
+                    <div class="md:w-1/2 order-3"></div>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row items-center mb-20 reveal group">
+                    <div class="md:w-1/2 order-2 md:order-1"></div>
+                    
+                    <div class="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-black border border-neutral-600 group-hover:border-gold transition-colors z-20">
+                         <div class="w-2 h-2 bg-neutral-500 rounded-full group-hover:bg-gold transition-colors"></div>
+                    </div>
+
+                    <div class="md:w-1/2 flex justify-start px-4 md:pl-12 order-3 pl-16">
+                        <div class="glass-panel p-6 rounded-xl border border-white/5 hover:border-gold/30 transition-colors duration-500">
+                            <h3 class="text-xl font-display font-bold text-white group-hover:text-gold transition-colors">Fase 3: La Gran Final</h3>
+                            <p class="text-neutral-400 text-sm mt-2">Escrutinio final entre los finalistas definitivos de las categorías elegidas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pt-12 text-center reveal">
+                    <div class="mx-auto w-20 h-20 bg-gradient-to-br from-gold via-yellow-300 to-gold rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.6)] relative z-20 mb-8 animate-pulse-slow">
+                        <i data-lucide="trophy" class="w-10 h-10 text-black"></i>
+                    </div>
+                    
+                    <div class="glass-panel inline-block p-8 md:p-12 rounded-2xl border border-gold shadow-[0_0_30px_rgba(212,175,55,0.1)] bg-black/80 backdrop-blur-xl max-w-2xl mx-auto">
+                         <h3 class="text-3xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold via-white to-gold mb-4 uppercase tracking-wider">
+                            Gran Gala & <br/> Amigo Invisible
+                         </h3>
+                         <div class="flex flex-col md:flex-row gap-6 justify-center text-sm font-bold tracking-widest text-neutral-400 mt-6">
+                            <span class="flex items-center gap-2 justify-center"><i data-lucide="calendar" class="w-4 h-4 text-gold"></i> 19 DE DICIEMBRE, 2025</span>
+                            <span class="flex items-center gap-2 justify-center"><i data-lucide="map-pin" class="w-4 h-4 text-gold"></i> UBICACIÓN SECRETA</span>
+                         </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -583,8 +628,8 @@
              </div>
              <h2 class="text-4xl md:text-6xl font-display font-bold mb-6 text-white uppercase">Propón tus Categorías</h2>
              <p class="text-neutral-300 text-lg mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                ¿Crees que falta algún premio esencial? ¿Alguien hizo algo legendario que merece ser reconocido? 
-                <br/><strong class="text-gold">Ayúdanos a definir la gala.</strong>
+                ¿Crees que falta algún premio esencial? ¿Alguien ha hecho algo legendario que merece ser reconocido? 
+                <br/><strong class="text-gold">Ayúdanos a mejorar la gala.</strong>
              </p>
              <div class="glass-panel p-8 md:p-12 rounded-xl border border-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.1)] mt-12">
                 <i data-lucide="clipboard-edit" class="w-12 h-12 text-gold mx-auto mb-6"></i>
@@ -597,21 +642,50 @@
         </div>
     </section>
 
-    <section id="group-photo" class="py-32 px-6 bg-transparent border-t border-white/5 relative overflow-hidden">
-        <div class="max-w-5xl mx-auto relative z-10 text-center reveal">
-            <i data-lucide="camera" class="w-8 h-8 text-gold mx-auto mb-6 opacity-80"></i>
-            <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-12 uppercase tracking-wider">
-                <span class="text-gold">Foto Grupal</span>
+    <section id="group-photo" class="py-32 bg-transparent border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto relative z-10 text-center mb-16 reveal">
+            <i data-lucide="image" class="w-8 h-8 text-gold mx-auto mb-6 opacity-80"></i>
+            <h2 class="text-3xl md:text-5xl font-display font-bold text-white uppercase tracking-wider">
+                <span class="text-gold">Recuerdos</span>
             </h2>
+            <p class="text-neutral-400 mt-4 text-sm tracking-widest uppercase">Momentos que definen nuestra historia</p>
+            <p class="md:hidden text-gold/50 text-[10px] mt-2 animate-pulse">← DESLIZA PARA VER MÁS →</p>
+        </div>
 
-            <div id="parallax-container" class="relative group max-w-4xl mx-auto transform transition-transform duration-100 ease-linear">
-                <div class="absolute -inset-1 bg-gradient-to-r from-gold via-yellow-500 to-gold rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-                <div class="relative rounded-xl overflow-hidden border-2 border-white/10 bg-black shadow-2xl">
-                    <img src="fotos/grupo2.jpg" alt="Foto Grupal" class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
-                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent text-left">
-                        <p class="text-gold font-display italic text-xl">"Grandes personas con muy buenos valores"</p>
-                    </div>
+        <div class="w-full relative fade-mask group md:overflow-hidden overflow-x-auto">
+            
+            <div class="animate-scroll-memories py-4 px-4 md:px-0">
+                
+                <div class="flex gap-6 shrink-0">
+                    <img src="fotos/footer1.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer2.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer3.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer4.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer5.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer6.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer7.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer8.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer9.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer10.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer11.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer12.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
                 </div>
+
+                <div class="flex gap-6 shrink-0">
+                    <img src="fotos/footer1.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer2.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer3.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer4.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer5.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer6.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer7.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer8.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer9.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer10.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer11.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer12.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                </div>
+
             </div>
         </div>
     </section>
@@ -635,7 +709,7 @@
              </div>
 
              <div id="ticket-result" class="hidden mt-12 animate-float">
-                 <h3 class="text-gold font-display text-xl mb-4">¡Bienvenido, Invitado de Honor!</h3>
+                 <h3 id="vip-welcome-msg" class="text-gold font-display text-xl mb-4 text-center uppercase tracking-widest"></h3>
                  <p class="text-neutral-400 text-xs mb-6">Guarda este tícket, será tu pase para la gala.</p>
                  <div class="relative group max-w-sm mx-auto">
                      <img id="final-ticket-img" src="" class="w-full rounded-lg shadow-[0_0_50px_rgba(212,175,55,0.3)] border border-gold/50">
@@ -647,13 +721,60 @@
         </div>
     </section>
 
-    <footer class="py-12 bg-black border-t border-white/10 text-center relative z-10">
-        <div class="flex flex-col items-center gap-4">
-           <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer hover-trigger" onclick="window.scrollTo(0,0)">
-             <img src="fotos/logo.png" class="w-6 h-6 grayscale">
-             <span class="font-display font-bold text-sm tracking-[0.2em] text-white">VIAJE DE S3X0 AWARDS</span>
-           </div>
-           <p class="text-[10px] text-neutral-600 font-sans uppercase tracking-wider">© 2025 Comité Organizador.</p>
+    <footer class="relative bg-[#050505] pt-20 pb-12 overflow-hidden border-t border-white/5">
+        
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[250px] bg-gold/5 blur-[90px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+                
+                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-4 order-2 md:order-1">
+                    <a href="#hero" onclick="window.scrollTo(0,0)" class="group flex items-center gap-3 cursor-pointer">
+                        <img src="fotos/logo.png" class="w-10 h-10 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                        <div class="flex flex-col">
+                            <span class="font-display font-bold text-sm tracking-[0.2em] text-white group-hover:text-gold transition-colors">
+                                VIAJE DE S3X0
+                            </span>
+                            <span class="font-display font-bold text-xs tracking-[0.4em] text-gold/80">
+                                AWARDS 2025
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex justify-center order-1 md:order-2 mb-8 md:mb-0">
+                    <div class="relative group cursor-pointer">
+                        
+                        <div class="absolute -inset-4 border border-dashed border-gold/20 rounded-full animate-[spin_15s_linear_infinite] group-hover:border-gold/50 transition-colors"></div>
+                        
+                        <div class="absolute inset-0 bg-gold/10 rounded-full blur-xl group-hover:bg-gold/20 transition-all duration-700"></div>
+
+                        <div class="w-16 h-16 rounded-full bg-black border border-gold/50 flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.2)] relative z-10 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="crown" class="w-8 h-8 text-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center md:items-end text-center md:text-right space-y-3 order-3">
+                    
+                    <div>
+                        <p class="text-white font-display font-bold text-sm uppercase tracking-wider">
+                            © 2025 Comité Organizador
+                        </p>
+                        <p class="text-neutral-500 text-[10px] uppercase tracking-widest mt-1">
+                            Todos los derechos reservados
+                        </p>
+                    </div>
+
+                    <div class="w-12 h-px bg-white/10"></div>
+
+                    <p class="text-gold/60 text-[10px] font-sans italic max-w-[250px] leading-relaxed">
+                        "Queda prohibida la reproducción total o parcial de los hechos ocurridos en la gala sin la presencia de un abogado o una cerveza."
+                    </p>
+                </div>
+
+            </div>
         </div>
     </footer>
 
@@ -909,6 +1030,8 @@
           }
 
           // === TODO CORRECTO: PROCEDEMOS A GENERAR EL TICKET ===
+          // ACTUALIZAR MENSAJE DE BIENVENIDA CON EL NOMBRE REAL
+          document.getElementById('vip-welcome-msg').innerText = `¡BIENVENIDO, ${nameInputRaw.toUpperCase()}!`;
           
           // Cargamos primero la foto del usuario
           const userImg = new Image();
@@ -927,6 +1050,72 @@
               alert("Error al cargar la foto del candidato. Inténtalo de nuevo.");
           };
       }
+
+        // --- FUNCIONES AUXILIARES PARA DIBUJAR ICONOS EN CANVAS ---
+        function drawCalendarIcon(ctx, x, y, size, color) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Cuerpo del calendario
+            ctx.beginPath();
+            // Rectangulo redondeado
+            const r = 2; // radio borde
+            const w = size;
+            const h = size;
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.stroke();
+
+            // Líneas superiores (grapas)
+            ctx.beginPath();
+            ctx.moveTo(x + w * 0.25, y - 3);
+            ctx.lineTo(x + w * 0.25, y + 3);
+            ctx.moveTo(x + w * 0.75, y - 3);
+            ctx.lineTo(x + w * 0.75, y + 3);
+            ctx.stroke();
+
+            // Línea horizontal interior
+            ctx.beginPath();
+            ctx.moveTo(x, y + h * 0.35);
+            ctx.lineTo(x + w, y + h * 0.35);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function drawMapPinIcon(ctx, x, y, size, color) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            
+            const r = size / 2; // Radio de la cabeza
+            const cx = x + r;   // Centro X
+            const cy = y + r;   // Centro Y
+
+            ctx.beginPath();
+            // Forma de gota
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.moveTo(cx, cy + r);
+            ctx.lineTo(cx, y + size * 1.3); // La punta del pin
+            
+            // El agujero del centro
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(cx, cy, r * 0.3, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.restore();
+        }
 
       // Función auxiliar para dibujar el ticket final (V3: SIN LÍNEA DISCONTINUA)
       function drawFinalTicket(userImg, qrImg, displayName) {
@@ -998,11 +1187,30 @@
           if (displayName.length > 15) tCtx.font = '900 40px Montserrat';
           tCtx.fillText(displayName, textLeftMargin, 185);
 
-          // Detalles inferiores
-          tCtx.font = '600 14px Montserrat';
-          tCtx.fillStyle = '#cccccc';
-          tCtx.fillText('Fecha: 19 de Diciembre de 2025', textLeftMargin, 235);
-          tCtx.fillText('Ubicación: Por determinar', textLeftMargin, 260);
+          // DETALLES CON ICONOS
+          
+          const iconSize = 16;
+          const textOffsetX = 25; // Espacio para el icono + margen
+          const goldColor = '#d4af37';
+          const detailsColor = '#cccccc';
+          const detailsFont = '600 14px Montserrat';
+
+          // 1. FECHA
+          // Dibujamos icono Calendario
+          drawCalendarIcon(tCtx, textLeftMargin, 222, iconSize, goldColor);
+          
+          // Dibujamos Texto Fecha
+          tCtx.font = detailsFont;
+          tCtx.fillStyle = detailsColor;
+          // Ajustamos posición para alinear con el icono
+          tCtx.fillText('19 DE DICIEMBRE, 2025', textLeftMargin + textOffsetX, 235);
+
+          // 2. UBICACIÓN
+          // Dibujamos icono Pin
+          drawMapPinIcon(tCtx, textLeftMargin, 247, iconSize, goldColor);
+          
+          // Dibujamos Texto Ubicación
+          tCtx.fillText('UBICACIÓN SECRETA', textLeftMargin + textOffsetX, 260);
 
           // Footer
           tCtx.font = 'italic 400 11px Montserrat';
