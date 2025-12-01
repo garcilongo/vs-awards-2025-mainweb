@@ -1340,14 +1340,14 @@
                 title: "Votación Global",
                 desc: "Los nominados oficiales están sobre la mesa. La democracia comienza ahora: elige sabiamente.",
                 formTitle: "Formulario Fase 2: Votación",
-                link: "https://forms.gle/TU_ENLACE_FASE_2_AQUI"
+                link: "https://forms.gle/TU_ENLACE_FASE_2_AQUI" // <--- PON AQUÍ TU LINK DE LA FASE 2
             },
             {
                 // FASE 3
                 title: "La Gran Final",
-                desc: "Todo está decidido. Nos vemos en la ubicación secreta.",
-                formTitle: "Información del Evento",
-                link: "#hero"
+                desc: "Escrutinio final entre los finalistas. Solo uno se alzará con la gloria suprema.",
+                formTitle: "Formulario Fase 3: Votación Final",
+                link: "https://forms.gle/TU_ENLACE_FASE_2_AQUI" // <--- PON AQUÍ TU LINK DE LA FASE 3
             }
         ];
 
@@ -1412,6 +1412,116 @@
 
         // Ejecutar al cargar la página
         document.addEventListener('DOMContentLoaded', updatePhaseSystem);
+    </script>
+
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[9999] flex flex-col gap-3 pointer-events-none items-end"></div>
+
+    <script>
+        // LISTA DE FRASES (SALSEO PURO)
+        const gossips = [
+            // CARLOS
+            "👀 VISTO: Carlos intentando colar un salami en el bolsillo del traje.",
+            "🕵️‍♂️ INVESTIGACIÓN: ¿Alguien sabe dónde estuvo Carlos en julio? Seguimos sin respuestas.",
+            "🍖 RUMOR: El 'salami de Albacete' ya tiene cuenta propia en Instagram.",
+
+            // ADRIANA
+            "🕰️ ÚLTIMA HORA: Adriana dice que está 'llegando'. (Sigue en la ducha).",
+            "🍰 DATO: Se ha interceptado un cargamento de tartas de queso con destino a Adriana.",
+            "⏰ ALERTA: La gala empezará cuando Adriana decida aparecer. Paciencia.",
+
+            // JOSÉ LUIS
+            "🍺 ESTADÍSTICA: Nivel de alcohol en sangre de José Luis: 0.0% (De momento).",
+            "🧠 PELIGRO: José Luis ha puesto cara de pensar. Se viene chapa sobre Kant.",
+            "⚽ DEPORTE: Se prohíbe mencionar al Liverpool en presencia de José Luis.",
+            "📺 EXCLUSIVA: Illojuan ha rechazado la invitación (José Luis está llorando).",
+
+            // NICOLÁS
+            "🤖 LEAK: Nicolás le ha preguntado a Gemini 'cómo no hacer el ridículo hoy'.",
+            "💸 FINANZAS: Nicolás está calculando el ROI de cada cubata que se bebe.",
+            "🗺️ VIAJES: Nicolás ha organizado una excursión al baño. Salida en 5 min.",
+
+            // PABLO GARCÍA
+            "🔊 SISMÓGRAFO: Detectado terremoto de magnitud 8. Ah no, es la risa de Pablo García.",
+            "🥚 SALUD: Se ruega a Pablo García que deje de tocar los huevos (literal y figuradamente).",
+            "📢 AVISO: Si escuchas voces a 3km, no es Dios, es Pablo García hablando bajito.",
+
+            // PABLO DOLZ
+            "🤓 CULTURA: Pablo Dolz está explicando por qué 'One Piece' es mejor que tu vida.",
+            "🕛 CENICIENTA: Faltan 2 horas para que Pablo Dolz se convierta en calabaza.",
+            "📠 FACTOS: La máquina de escupir factos de Dolz se ha sobrecalentado.",
+
+            // LUCÍA
+            "🍻 NEGOCIOS: Lucía está negociando comprar el bar para no tener que irse a casa.",
+            "🥊 DEBATE: Lucía ha ganado una discusión contra una pared. La pared ha llorado.",
+            "🍺 HIDRATACIÓN: Lucía lleva 3 tercios y todavía no hemos empezado.",
+
+            // GENERAL / EVENTO
+            "💃 VESTUARIO: Alguien lleva los calcetines con tomates. No diremos quién.",
+            "🚑 URGENTE: Se necesita ibuprofeno en la mesa 3.",
+            "🚻 TRÁFICO: Atasco en el baño de mujeres. Se recomienda ir al descampado.",
+            "💋 SALSEO: Hay una tensión sexual no resuelta en el ambiente. (Son Nicolás y el Excel).",
+            "👮 LEGAL: Queda prohibido vomitar antes de las 02:00 AM.",
+            "📸 FOTO: Borrad esa historia de Instagram, mi madre me sigue.",
+            "💔 AMOR: El único amor verdadero aquí es el de nosotros con la barra libre."
+        ];
+
+        function showGossip() {
+            const container = document.getElementById('toast-container');
+            
+            // Elegir frase aleatoria
+            const text = gossips[Math.floor(Math.random() * gossips.length)];
+            
+            // Crear el elemento visual
+            const toast = document.createElement('div');
+            // Clases: Fondo negro semitransparente, borde dorado, sombra, blur
+            toast.className = "bg-black/90 border-r-4 border-gold text-white p-4 rounded-l-lg shadow-[0_0_20px_rgba(212,175,55,0.2)] max-w-[300px] transform translate-x-10 opacity-0 transition-all duration-500 flex items-center gap-3 backdrop-blur-md pointer-events-auto cursor-help hover:scale-105";
+            
+            toast.innerHTML = `
+                <div class="flex-1 text-right">
+                    <h4 class="text-[10px] font-bold text-gold uppercase tracking-widest mb-1 flex justify-end items-center gap-2">
+                        Javi Hoyos - Salseo VS Awards 2025 <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>
+                    </h4>
+                    <p class="text-xs text-neutral-200 leading-snug font-medium italic">"${text}"</p>
+                </div>
+                <div class="bg-gold/10 p-2 rounded-full border border-gold/30 shrink-0">
+                    <i data-lucide="radio" class="w-5 h-5 text-gold animate-pulse"></i>
+                </div>
+            `;
+
+            container.appendChild(toast);
+            
+            // Re-inicializar iconos para el nuevo elemento
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            // 1. Animación de Entrada (Entra desde la derecha)
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-10', 'opacity-0');
+            });
+
+            // 2. Animación de Salida (Se va después de 6 segundos)
+            setTimeout(() => {
+                toast.classList.add('translate-x-20', 'opacity-0'); // Se va más a la derecha y desaparece
+                // Eliminar del DOM después de la animación CSS
+                setTimeout(() => toast.remove(), 500);
+            }, 6000); 
+        }
+
+        // --- TEMPORIZADOR INTELIGENTE ---
+        // Lanza un cotilleo inicial a los 2 segundos
+        setTimeout(showGossip, 2000);
+
+        // Luego lanza uno cada 10-18 segundos de forma aleatoria para que no sea monótono
+        function scheduleNextGossip() {
+            const randomTime = Math.random() * (18000 - 10000) + 10000; // Entre 10s y 18s
+            setTimeout(() => {
+                showGossip();
+                scheduleNextGossip(); // Se llama a sí mismo para el siguiente
+            }, randomTime);
+        }
+        
+        // Iniciar bucle
+        scheduleNextGossip();
+
     </script>
 </body>
 </html>
