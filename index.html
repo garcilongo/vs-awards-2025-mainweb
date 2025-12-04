@@ -46,11 +46,11 @@
         body { 
             background-color: #0a0a0a; 
             color: #ffffff; 
-            /* Por defecto ocultamos el cursor nativo SOLO en PC */
+            /* Por defecto ocultamos el cursor nativo SOLO en PC para usar el personalizado */
             cursor: none; 
         }
 
-        /* En Móviles/Tablets (pantallas táctiles): Restauramos cursor nativo y ocultamos el personalizado */
+        /* En Móviles/Tablets: Restauramos cursor nativo y ocultamos el personalizado */
         @media (hover: none) and (pointer: coarse) {
             body { cursor: auto !important; }
             #custom-cursor, #cursor-dot { display: none !important; }
@@ -70,89 +70,96 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- 2. CONFIGURACIÓN DEL CARRUSEL DE RECUERDOS (Responsive) --- */
+        /* --- 2. CONFIGURACIÓN DEL CARRUSEL DE RECUERDOS (Modo Galería/Trackpad) --- */
         
-        /* Definición de la animación */
-        @keyframes scroll-memories {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* MÁSCARA DE DIFUMINADO (Se ve bien tanto en móvil como en PC) */
+        /* Máscara de difuminado lateral para que se vea elegante */
         .fade-mask {
             mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
 
-        /* CLASE PRINCIPAL DEL CARRUSEL */
+        /* Contenedor del Carrusel */
         .animate-scroll-memories {
             display: flex;
-            gap: 1.5rem; /* equivale a gap-6 */
-        }
-
-        /* --- COMPORTAMIENTO MÓVIL (Por defecto) --- */
-        /* Scroll manual, sin animación automática */
-        .animate-scroll-memories {
-            overflow-x: auto; /* Permite deslizar con el dedo */
+            gap: 1.5rem;
+            
+            /* Habilitar scroll horizontal manual (Touch y Trackpad) */
+            overflow-x: auto; 
             width: 100%;
-            scroll-snap-type: x mandatory; /* Efecto imán al soltar */
-            padding-bottom: 20px; /* Espacio para que no corte la sombra */
-            /* Ocultar barra de scroll fea */
+            
+            /* Efecto imán (Snap) para centrar fotos al soltar */
+            scroll-snap-type: x mandatory; 
+            scroll-behavior: smooth;
+            
+            /* Espaciado para evitar cortes en sombras */
+            padding: 20px 0;
+            
+            /* Ocultar barra de scroll (Firefox, IE, Edge) */
             scrollbar-width: none; 
             -ms-overflow-style: none;
         }
-        .animate-scroll-memories::-webkit-scrollbar { display: none; }
 
-        /* --- COMPORTAMIENTO ESCRITORIO (Pantallas > 768px) --- */
-        /* Activamos la animación infinita y quitamos el scroll manual */
-        @media (min-width: 768px) {
-            .animate-scroll-memories {
-                animation: scroll-memories 80s linear infinite; /* Animación activa */
-                width: max-content; /* Ancho infinito */
-                overflow-x: visible;
-                scroll-snap-type: none;
-                padding-bottom: 0;
-            }
+        /* Ocultar barra de scroll (Chrome, Safari, Opera) */
+        .animate-scroll-memories::-webkit-scrollbar { 
+            display: none; 
         }
 
-        /* --- OTROS ESTILOS (Botones, Textos, etc) --- */
+        /* Regla para que cada imagen se centre suavemente al hacer snap */
+        .animate-scroll-memories img {
+            scroll-snap-align: center;
+        }
+
+        /* --- 3. OTROS ESTILOS (Botones, Textos, Efectos) --- */
+        
+        /* Texto con gradiente dorado */
         .text-gold-gradient {
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 3s linear infinite;
         }
+        
+        /* Botón Dorado */
         .btn-gold {
             background: linear-gradient(45deg, #bf953f, #fbf5b7, #aa771c);
             color: #000; font-weight: 700; letter-spacing: 0.1em; transition: all 0.3s ease; position: relative; overflow: hidden;
         }
         .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+        
+        /* Paneles de Cristal */
         .glass-panel {
             background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
+        
+        /* Utilidad para ocultar scrollbar en otros sitios si hace falta */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Animación de brillo en texto */
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* Ecualizador */
+        /* --- 4. ECUALIZADOR DE MÚSICA --- */
         .equalizer-bar { background-color: #d4af37; width: 3px; height: 100%; border-radius: 2px; animation: none; }
         .music-active .equalizer-bar { animation: equalizer-anim 0.8s infinite ease-in-out; }
         .music-active .equalizer-bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
         .music-active .equalizer-bar:nth-child(2) { animation-delay: 0.3s; height: 80%; }
         .music-active .equalizer-bar:nth-child(3) { animation-delay: 0.5s; height: 50%; }
         .music-active .equalizer-bar:nth-child(4) { animation-delay: 0.2s; height: 30%; }
-        @keyframes equalizer-anim { 0% { height: 20%; } 50% { height: 100%; } 100% { height: 20%; } }
+        
+        @keyframes equalizer-anim { 
+            0% { height: 20%; } 50% { height: 100%; } 100% { height: 20%; } 
+        }
 
-        /* Flip Card */
+        /* --- 5. TARJETAS FLIP (CANDIDATOS) --- */
         .perspective-container { perspective: 1000px; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flip-card-inner.flipped { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; top: 0; left: 0; }
         .flip-card-back { transform: rotateY(180deg); background-color: #121212; display: flex; flex-direction: column; justify-content: center; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); }
 
-        /* Reveal */
+        /* --- 6. SCROLL REVEAL (EFECTO APARICIÓN) --- */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-    </style>
+    </style>    
+
 </head>
 <body class="antialiased selection:bg-gold selection:text-black overflow-x-hidden">
 
@@ -653,46 +660,32 @@
         <div class="max-w-5xl mx-auto relative z-10 text-center mb-16 reveal">
             <i data-lucide="image" class="w-8 h-8 text-gold mx-auto mb-6 opacity-80"></i>
             <h2 class="text-3xl md:text-5xl font-display font-bold text-white uppercase tracking-wider">
-                <span class="text-gold">Recuerdos</span>
+                <span class="text-gold">Memories</span>
             </h2>
             <p class="text-neutral-400 mt-4 text-sm tracking-widest uppercase">Momentos que definen nuestra historia</p>
-            <p class="md:hidden text-gold/50 text-[10px] mt-2 animate-pulse">← DESLIZA PARA VER MÁS →</p>
+            <p class="text-gold/50 text-[10px] mt-2 animate-pulse md:hidden">← DESLIZA CON EL DEDO →</p>
+            <p class="text-gold/50 text-[10px] mt-2 animate-pulse hidden md:block">← ARRASTRA CON EL RATÓN →</p>
         </div>
 
-        <div class="w-full relative fade-mask group md:overflow-hidden overflow-x-auto">
+        <div class="w-full relative fade-mask group overflow-x-auto cursor-grab active:cursor-grabbing">
             
-            <div class="animate-scroll-memories py-4 px-4 md:px-0">
+            <div class="animate-scroll-memories py-4">
                 
                 <div class="flex gap-6 shrink-0">
-                    <img src="fotos/footer1.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer2.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer3.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer4.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer5.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer6.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer7.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer8.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer9.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer10.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer11.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer12.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
+                    <img src="fotos/footer1.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer2.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer3.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer4.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer5.jpeg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer6.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    
+                    <img src="fotos/footer7.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer8.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer9.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer10.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer11.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
+                    <img src="fotos/footer12.jpg" class="h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-[1.02]">
                 </div>
-
-                <div class="flex gap-6 shrink-0">
-                    <img src="fotos/footer1.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer2.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer3.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer4.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer5.jpeg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer6.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer7.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer8.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer9.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer10.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer11.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                    <img src="fotos/footer12.jpg" class="snap-center h-[300px] md:h-[500px] w-auto object-cover rounded-xl border border-gold/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:hover:scale-[1.02] transition-transform duration-500">
-                </div>
-
             </div>
         </div>
     </section>
