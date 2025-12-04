@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALA EN DIRECTO | VIAJE DE S3X0 AWARDS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { gold: '#d4af37', black: '#0a0a0a' },
+            fontFamily: { sans: ['Montserrat', 'sans-serif'], display: ['Playfair Display', 'serif'] },
+            animation: { 'spin-slow': 'spin 8s linear infinite', 'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+        body { background-color: #050505; color: white; overflow: hidden; }
+        .card-flip { transition: transform 0.8s; transform-style: preserve-3d; }
+        .card-flip.flipped { transform: rotateY(180deg); }
+        .front, .back { backface-visibility: hidden; position: absolute; inset: 0; }
+        .back { transform: rotateY(180deg); }
+        
+        /* Efecto de resplandor dorado */
+        .glow-text { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+        
+        /* Ocultar scrollbar */
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col items-center justify-center relative">
+
+    <div class="absolute inset-0 z-0">
+        <div class="absolute top-[-20%] left-[-20%] w-[50vw] h-[50vw] bg-gold/5 rounded-full blur-[120px] animate-pulse-fast"></div>
+        <div class="absolute bottom-[-20%] right-[-20%] w-[50vw] h-[50vw] bg-gold/5 rounded-full blur-[120px] animate-pulse-fast" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="absolute top-8 left-0 w-full px-12 z-20 flex justify-between items-end">
+        <div>
+            <p class="text-neutral-500 text-xs tracking-[0.3em] uppercase mb-1">Categoría Actual</p>
+            <h2 id="category-title" class="text-3xl md:text-5xl font-display font-bold text-white uppercase glow-text transition-all duration-500">
+                CARGANDO...
+            </h2>
+        </div>
+        <div class="text-right">
+            <span id="counter" class="text-gold font-mono text-xl">1 / 15</span>
+        </div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-2xl aspect-[4/5] md:aspect-video perspective-1000 group cursor-pointer" onclick="revealWinner()">
+        
+        <div id="main-card" class="card-flip w-full h-full relative">
+            
+            <div class="front bg-black border border-gold/30 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.1)] relative overflow-hidden">
+                <div class="absolute w-[400px] h-[400px] border border-dashed border-gold/20 rounded-full animate-spin-slow"></div>
+                <div class="absolute w-[300px] h-[300px] border border-dashed border-gold/20 rounded-full animate-spin-slow" style="animation-direction: reverse;"></div>
+                
+                <i data-lucide="lock" class="w-16 h-16 text-gold mb-6 animate-bounce"></i>
+                <p class="text-gold/80 tracking-widest uppercase text-sm font-bold">Toca para revelar al ganador</p>
+            </div>
+
+            <div class="back bg-black border-2 border-gold rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(212,175,55,0.4)] relative">
+                <img id="winner-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-1000 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                
+                <div class="absolute bottom-0 w-full p-8 md:p-12 text-center">
+                    <p class="text-gold text-xs font-bold tracking-[0.5em] uppercase mb-4 animate-pulse">GANADOR OFICIAL 2025</p>
+                    <h1 id="winner-name" class="text-4xl md:text-6xl font-display font-bold text-white mb-6 uppercase drop-shadow-lg leading-tight">
+                        </h1>
+                    <p id="winner-desc" class="text-neutral-300 italic font-light text-sm md:text-lg max-w-lg mx-auto mb-8">
+                        </p>
+                    
+                    <button class="bg-gold text-black px-6 py-2 rounded font-bold uppercase text-xs tracking-widest hover:bg-white transition-colors shadow-[0_0_20px_rgba(212,175,55,0.5)]">
+                        <i data-lucide="award" class="w-4 h-4 inline-block mr-2"></i> Descargar Diploma
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 w-full px-12 z-20 flex justify-between items-center">
+        <button onclick="prevCategory()" class="text-neutral-500 hover:text-white transition-colors uppercase text-xs tracking-widest flex items-center gap-2">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Anterior
+        </button>
+        
+        <button id="btn-next" onclick="nextCategory()" class="opacity-50 pointer-events-none text-gold uppercase text-sm font-bold tracking-widest flex items-center gap-2 border border-gold/30 px-6 py-3 rounded hover:bg-gold/10 transition-all">
+            Siguiente Categoría <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // =========================================================
+        // 1. DATOS DE PRUEBA (SIMULANDO TU EXCEL)
+        // =========================================================
+        // Aquí es donde tu web "lee" los resultados. 
+        // type: 'person' (fotos de perfil) o 'moment' (foto específica)
+        
+        const awardsData = [
+            {
+                category: "Mejor Liada Nocturna",
+                winner: "Nicolás",
+                desc: "Por organizar una excursión y acabar en una sidrería.",
+                image: "fotos/nicolas.jpg" // Foto de persona
+            },
+            {
+                category: "Foto del Año",
+                winner: "El Grupo en Mafalda",
+                desc: "Ese momento icónico con la estatua de Mafalda.",
+                image: "fotos/footer7.JPG" // Foto de MOMENTO (ruta específica)
+            },
+            {
+                category: "Premio Fantasma 2025",
+                winner: "Carlos",
+                desc: "Desapareció en julio y volvió diciendo que estaba entrenando.",
+                image: "fotos/carlos.jpg"
+            },
+            {
+                category: "Mejor Foto 'Aesthetic'",
+                winner: "Atardecer en el Faro",
+                desc: "Nadie sabe quién la hizo, pero quedó de locos.",
+                image: "fotos/footer4.jpg" // Otra foto de momento
+            }
+        ];
+
+        // =========================================================
+        // 2. LÓGICA DE LA GALA
+        // =========================================================
+        
+        let currentIndex = 0;
+        let isRevealed = false;
+
+        const titleEl = document.getElementById('category-title');
+        const counterEl = document.getElementById('counter');
+        const cardEl = document.getElementById('main-card');
+        const imgEl = document.getElementById('winner-img');
+        const nameEl = document.getElementById('winner-name');
+        const descEl = document.getElementById('winner-desc');
+        const btnNext = document.getElementById('btn-next');
+
+        function loadCategory(index) {
+            // Resetear estado
+            isRevealed = false;
+            cardEl.classList.remove('flipped');
+            btnNext.classList.add('opacity-50', 'pointer-events-none');
+            
+            // Cargar datos
+            const data = awardsData[index];
+            titleEl.innerText = data.category;
+            counterEl.innerText = `${index + 1} / ${awardsData.length}`;
+            
+            // Precargar datos del dorso (oculto)
+            nameEl.innerText = data.winner;
+            descEl.innerText = data.desc;
+            imgEl.src = data.image;
+        }
+
+        function revealWinner() {
+            if (isRevealed) return; // Si ya está revelado, no hacer nada
+            
+            isRevealed = true;
+            cardEl.classList.add('flipped');
+            
+            // Activar botón de siguiente
+            setTimeout(() => {
+                btnNext.classList.remove('opacity-50', 'pointer-events-none');
+                btnNext.classList.add('animate-pulse');
+            }, 1000);
+
+            // Confeti explosivo
+            fireConfetti();
+        }
+
+        function nextCategory() {
+            if (currentIndex < awardsData.length - 1) {
+                currentIndex++;
+                loadCategory(currentIndex);
+            } else {
+                alert("¡FIN DE LA GALA! ¡A BEBER!");
+            }
+        }
+
+        function prevCategory() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCategory(currentIndex);
+            }
+        }
+
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 99999 };
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Iniciar
+        loadCategory(0);
+
+    </script>
+</body>
+</html>
