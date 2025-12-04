@@ -1448,19 +1448,10 @@
                 link: "#" // <-- PON AQUÍ EL LINK CUANDO LO TENGAS
             }
         ];
-
-        function updatePhaseSystem() {
-            // 1. ACTUALIZAR CRONOGRAMA
-            // IMPORTANTE: Ahora el bucle va hasta 4 porque hemos añadido una fase
-            for (let i = 0; i <= 4; i++) { 
-                const phaseEl = document.getElementById(`phase-${i}`);
-                if (!phaseEl) continue;
                 
-                // ... (El resto de la función se queda igual) ...
-
         function updatePhaseSystem() {
             // 1. ACTUALIZAR CRONOGRAMA
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i <= 4; i++) {
                 const phaseEl = document.getElementById(`phase-${i}`);
                 if (!phaseEl) continue;
 
