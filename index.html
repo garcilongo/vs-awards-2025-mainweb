@@ -918,60 +918,91 @@
         </div>
     </section>
 
-    <footer class="relative bg-[#050505] pt-20 pb-12 overflow-hidden border-t border-white/5">
+    <footer class="relative bg-[#050505] pt-20 pb-12 overflow-hidden">
         
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[250px] bg-gold/5 blur-[90px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-gold/5 to-transparent pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="max-w-6xl mx-auto px-8 relative z-10">
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
                 
-                <div class="flex flex-col items-center md:items-start text-center md:text-left space-y-4 order-2 md:order-1">
-                    <a href="#hero" onclick="window.scrollTo(0,0)" class="group flex items-center gap-3 cursor-pointer">
-                        <img src="fotos/logo.png" class="w-10 h-10 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
-                        <div class="flex flex-col">
-                            <span class="font-display font-bold text-sm tracking-[0.2em] text-white group-hover:text-gold transition-colors">
+                <div class="flex flex-col space-y-4">
+                    <a href="#hero" onclick="window.scrollTo(0,0)" class="group flex flex-col gap-4 cursor-pointer">
+                        <img src="fotos/logo.png" class="w-16 h-16 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                        <div class="flex flex-col text-left">
+                            <span class="font-display font-bold text-xl tracking-[0.1em] text-white group-hover:text-gold transition-colors leading-none">
                                 VIAJE DE S3X0
                             </span>
-                            <span class="font-display font-bold text-xs tracking-[0.4em] text-gold/80">
-                                AWARDS 2025
+                            <span class="font-display font-bold text-xs tracking-[0.3em] text-gold/80 mt-1">
+                                AWARDS 2025 ®
                             </span>
                         </div>
                     </a>
+                    <p class="text-neutral-500 text-xs leading-relaxed max-w-[200px] mt-2">
+                        Celebrando lo mejor y lo peor de nuestra existencia. Estricta etiqueta y poca vergüenza.
+                    </p>
                 </div>
 
-                <div class="flex justify-center order-1 md:order-2 mb-8 md:mb-0">
-                    <div class="relative group cursor-pointer">
-                        
-                        <div class="absolute -inset-4 border border-dashed border-gold/20 rounded-full animate-[spin_15s_linear_infinite] group-hover:border-gold/50 transition-colors"></div>
-                        
-                        <div class="absolute inset-0 bg-gold/10 rounded-full blur-xl group-hover:bg-gold/20 transition-all duration-700"></div>
+                <div class="flex flex-col space-y-6 pt-2">
+                    <h4 class="text-white font-display font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> Navegación
+                    </h4>
+                    <nav class="flex flex-col gap-3 text-left">
+                        <a href="#rules" class="text-neutral-400 hover:text-gold transition-colors text-xs uppercase tracking-wider hover:translate-x-1 duration-300">Cronograma</a>
+                        <a href="#nominees" class="text-neutral-400 hover:text-gold transition-colors text-xs uppercase tracking-wider hover:translate-x-1 duration-300">Candidatos</a>
+                        <a href="#group-photo" class="text-neutral-400 hover:text-gold transition-colors text-xs uppercase tracking-wider hover:translate-x-1 duration-300">Galería de Recuerdos</a>
+                        <a href="#quotes" class="text-neutral-400 hover:text-gold transition-colors text-xs uppercase tracking-wider hover:translate-x-1 duration-300">Muro de la Fama</a>
+                        <a href="#active-phase" onclick="fireConfetti()" class="text-gold font-bold hover:text-white transition-colors text-xs uppercase tracking-wider hover:translate-x-1 duration-300 flex items-center gap-2">
+                            <i data-lucide="star" class="w-3 h-3"></i> Votar Ahora
+                        </a>
+                    </nav>
+                </div>
 
-                        <div class="w-16 h-16 rounded-full bg-black border border-gold/50 flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.2)] relative z-10 group-hover:scale-110 transition-transform duration-500">
-                            <i data-lucide="crown" class="w-8 h-8 text-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]"></i>
+                <div class="flex flex-col space-y-6 pt-2">
+                    <h4 class="text-white font-display font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> Sponsors
+                    </h4>
+                    <div class="flex flex-col gap-4 text-left">
+                        
+                        <a href="https://www.mahou.es/" target="_blank" class="group flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                            <i data-lucide="beer" class="w-4 h-4 text-gold group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs text-neutral-300 uppercase tracking-wide group-hover:text-white transition-colors">Cerveza Barata S.A.</span>
+                        </a>
+
+                        <a href="https://www.uber.com/es/es-es/" target="_blank" class="group flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                            <i data-lucide="car" class="w-4 h-4 text-gold group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs text-neutral-300 uppercase tracking-wide group-hover:text-white transition-colors">Taxis de las 6:00 AM</span>
+                        </a>
+
+                        <a href="https://cima.aemps.es/cima/dochtml/p/62867/P_62867.html" target="_blank" class="group flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                            <i data-lucide="pill" class="w-4 h-4 text-gold group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs text-neutral-300 uppercase tracking-wide group-hover:text-white transition-colors">Ibuprofeno 600mg</span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="flex flex-col space-y-6 pt-2">
+                    <h4 class="text-white font-display font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> Ilegal
+                    </h4>
+                    <div class="flex flex-col space-y-3">
+                        <p class="text-gold/40 text-[10px] font-sans italic leading-relaxed">
+                            "Comité de Niños Indios Asalariados © 2025. No nos hacemos responsables de rupturas de amistad ni resacas mortales."
+                        </p>
+                        <div class="flex flex-col gap-2 mt-2">
+                            <a href="https://sorpresa-vsawards.netlify.app/" class="text-neutral-600 hover:text-white text-[10px] uppercase tracking-wider transition-colors">→ Aviso Ilegal</a>
+                            <a href="https://sorpresa-vsawards.netlify.app/" class="text-neutral-600 hover:text-white text-[10px] uppercase tracking-wider transition-colors">→ Política de Espionaje</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col items-center md:items-end text-center md:text-right space-y-3 order-3">
-                    
-                    <div>
-                        <p class="text-white font-display font-bold text-sm uppercase tracking-wider">
-                            © 2025 Comité de Niños Indios Asalariados
-                        </p>
-                        <p class="text-neutral-500 text-[10px] uppercase tracking-widest mt-1">
-                            Todos los derechos reservados
-                        </p>
-                    </div>
-
-                    <div class="w-12 h-px bg-white/10"></div>
-
-                    <p class="text-gold/60 text-[10px] font-sans italic max-w-[250px] leading-relaxed">
-                        "Queda prohibida la reproducción total o parcial de los hechos ocurridos en la gala sin la presencia de un abogado o una cerveza."
-                    </p>
-                </div>
-
             </div>
+            
+            <div class="mt-16 text-center border-t border-white/5 pt-8">
+                <p class="text-neutral-700 text-[10px] uppercase tracking-[0.5em]">Hecho con desamor y estrés</p>
+            </div>
+
         </div>
     </footer>
 
