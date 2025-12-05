@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔴 GALA EN DIRECTO | VS AWARDS 2025</title>
+    <title>GALA EN DIRECTO | VS AWARDS 2025</title>
     
     <link rel="icon" type="image/png" href="fotos/logo.png" />
     
@@ -25,9 +25,10 @@
                 'float': 'float 6s ease-in-out infinite',
                 'pulse-glow': 'pulseGlow 2s infinite',
                 'zoom-in': 'zoomIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-                'spotlight': 'spotlightMove 5s ease-in-out infinite alternate',
                 'shine-gold': 'shineGold 4s linear infinite',
                 'flash': 'flashEffect 0.6s ease-out forwards',
+                'fade-out': 'fadeOut 0.5s ease-out forwards',
+                'sway': 'sway 8s ease-in-out infinite alternate',
             },
             keyframes: {
                 'shake-hard': {
@@ -38,9 +39,10 @@
                 float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
                 pulseGlow: { '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.3))' }, '50%': { filter: 'drop-shadow(0 0 40px rgba(212, 175, 55, 0.7))' } },
                 zoomIn: { '0%': { transform: 'scale(0.95)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
-                spotlightMove: { '0%': { transform: 'rotate(-15deg) scale(1.2)', opacity: '0.4' }, '100%': { transform: 'rotate(15deg) scale(1.2)', opacity: '0.8' } },
                 shineGold: { '0%': { backgroundPosition: '0% 50%' }, '50%': { backgroundPosition: '100% 50%' }, '100%': { backgroundPosition: '0% 50%' } },
-                flashEffect: { '0%': { opacity: 0 }, '50%': { opacity: 1, background: 'white' }, '100%': { opacity: 0 } }
+                flashEffect: { '0%': { opacity: 0 }, '50%': { opacity: 1, background: 'white' }, '100%': { opacity: 0 } },
+                fadeOut: { '0%': { opacity: 1 }, '100%': { opacity: 0 } },
+                sway: { '0%': { transform: 'rotate(-5deg)' }, '100%': { transform: 'rotate(5deg)' } }
             }
           }
         }
@@ -62,20 +64,20 @@
         .text-gold-epic { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c, #bf953f); background-size: 300% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineGold 5s linear infinite; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
 
         /* TARJETA SIN GIRO 3D - SISTEMA DE CAPAS */
-        .card-container { position: relative; width: 100%; height: 100%; }
+        .card-container { position: relative; width: 100%; height: 100%; z-index: 60; /* Z-Index alto para sobresalir del blackout */ }
         .front, .back { 
             position: absolute; inset: 0; width: 100%; height: 100%;
             -webkit-backface-visibility: hidden; backface-visibility: hidden; 
             border-radius: 16px; overflow: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
-            transition: opacity 0.1s ease-in-out; /* Transición instantánea bajo el flash */
+            transition: opacity 0.1s ease-in-out;
         }
 
-        /* ESTADO INICIAL: FRENTE VISIBLE, ATRÁS OCULTO */
+        /* ESTADO INICIAL */
         .front { z-index: 2; opacity: 1; pointer-events: auto; background: radial-gradient(circle at center, #1a1a1a, #000); border: 2px solid #d4af37; }
         .back { z-index: 1; opacity: 0; pointer-events: none; background: #000; border: 2px solid #d4af37; }
 
-        /* ESTADO REVELADO: FRENTE OCULTO, ATRÁS VISIBLE */
+        /* ESTADO REVELADO */
         .card-container.is-revealed .front { opacity: 0; pointer-events: none; z-index: 1; }
         .card-container.is-revealed .back { opacity: 1; pointer-events: auto; z-index: 2; }
 
@@ -86,16 +88,28 @@
         #flash-overlay { position: absolute; inset: 0; background: white; opacity: 0; z-index: 100; pointer-events: none; mix-blend-mode: screen; }
         .trigger-flash #flash-overlay { animation: flash 0.7s ease-out forwards; }
 
+        /* CAPA DE BLACKOUT (APAGÓN) */
+        #blackout-layer {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.92); 
+            z-index: 50; /* Debajo de la tarjeta pero encima del fondo */
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .blackout-active #blackout-layer { opacity: 1; }
+
         /* BOTONES ÉPICOS */
-        .btn-epic { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0)); backdrop-filter: blur(10px); border: 1px solid rgba(212,175,55,0.3); color: #d4af37; transition: all 0.3s ease; }
+        .btn-epic { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0)); backdrop-filter: blur(10px); border: 1px solid rgba(212,175,55,0.3); color: #d4af37; transition: all 0.3s ease; cursor: pointer; }
         .btn-epic:hover { background: #d4af37; color: #000; border-color: #d4af37; box-shadow: 0 0 30px rgba(212,175,55,0.5); transform: translateY(-2px); }
 
-        /* FOCOS */
-        .spotlight-beam { position: absolute; width: 200px; height: 100vh; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); filter: blur(20px); transform-origin: top center; pointer-events: none; opacity: 0; top: -10%; left: 50%; margin-left: -100px; }
-        .active-scene .spotlight-beam { opacity: 1; animation: spotlight 4s ease-in-out infinite alternate; }
-        .spotlight-left { animation-delay: 0s; transform: rotate(-15deg); }
-        .spotlight-right { animation-delay: 2s; transform: rotate(15deg); }
-        
+        /* FOCOS DE TEATRO (STAGE LIGHTS) */
+        .stage-light {
+            position: absolute; width: 40%; height: 150%; top: -30%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, transparent 80%);
+            filter: blur(40px); pointer-events: none; z-index: 40;
+            transform-origin: top center; mix-blend-mode: screen;
+        }
+        .light-left { left: -10%; transform: rotate(25deg); animation: sway 6s ease-in-out infinite alternate; }
+        .light-right { right: -10%; transform: rotate(-25deg); animation: sway 7s ease-in-out infinite alternate-reverse; }
+
         /* HEADER LOGO */
         .header-logo-container { cursor: pointer; transition: transform 0.3s ease; }
         .header-logo-container:hover { transform: scale(1.05); }
@@ -104,11 +118,13 @@
 <body class="text-white h-screen w-screen flex flex-col font-sans overflow-hidden">
 
     <div id="custom-cursor"></div><div id="cursor-dot"></div>
-    <audio id="audio-drumroll" src="fotos/redoble.mp3" preload="auto"></audio>
-    <audio id="audio-victory" src="fotos/victoria.mp3" preload="auto"></audio>
+    
+    <audio id="audio-gala" src="fotos/victoria.mp3" preload="auto"></audio>
     
     <canvas id="constellation-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
     <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80"></div>
+
+    <div id="blackout-layer"></div>
 
     <div onclick="goToScreen('screen-intro')" class="fixed top-6 left-8 z-50 flex items-center gap-3 header-logo-container group">
         <img src="fotos/logo.png" class="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.6)] group-hover:drop-shadow-[0_0_20px_rgba(212,175,55,1)] transition-all">
@@ -119,8 +135,8 @@
     </div>
 
     <section id="screen-intro" class="screen-section active flex flex-col items-center justify-center">
-        <div class="spotlight-beam spotlight-left active-scene"></div>
-        <div class="spotlight-beam spotlight-right active-scene"></div>
+        <div class="stage-light light-left"></div>
+        <div class="stage-light light-right"></div>
 
         <div class="relative z-10 text-center animate-zoom-in">
             <div class="relative mb-10 group cursor-pointer hover:scale-105 transition-transform duration-500">
@@ -133,7 +149,7 @@
             </h1>
 
             <button onclick="goToScreen('screen-candidates')" class="btn-epic px-12 py-5 rounded-sm text-sm font-bold uppercase tracking-[0.2em] flex items-center gap-3 mx-auto">
-                Comenzar <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                Iniciar Gala <i data-lucide="play" class="w-4 h-4 fill-current"></i>
             </button>
         </div>
     </section>
@@ -190,22 +206,21 @@
 
         <div class="flex-1 flex flex-col items-center justify-center relative z-10 px-4">
             
-            <div class="mb-14 text-center max-w-6xl mt-8 animate-zoom-in">
+            <div class="stage-light light-left"></div>
+            <div class="stage-light light-right"></div>
+
+            <div class="mb-10 text-center max-w-6xl mt-4 animate-zoom-in relative z-40">
                 <h2 id="cat-title" class="text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase text-gold-epic drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] transition-all duration-500 leading-tight">
                     </h2>
             </div>
 
-            <div class="w-full max-w-[500px] md:max-w-[700px] aspect-[4/5] md:aspect-[16/10] relative mb-4">
+            <div class="w-full max-w-[1000px] aspect-video relative mb-4">
+                
                 <div id="main-card" class="card-container cursor-pointer group" onclick="revealWinner()">
                     
                     <div id="flash-overlay"></div>
 
                     <div id="card-front" class="front flex flex-col items-center justify-center animate-pulse-glow">
-                        <div id="reveal-lights" class="absolute inset-0 opacity-0 transition-opacity duration-500">
-                             <div class="spotlight-beam spotlight-left"></div>
-                             <div class="spotlight-beam spotlight-right"></div>
-                        </div>
-
                         <div class="relative z-10 border-2 border-gold rounded-full p-8 bg-black/40 backdrop-blur-md mb-8 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_40px_rgba(212,175,55,0.2)]">
                             <i data-lucide="star" class="w-16 h-16 text-gold fill-gold/20"></i>
                         </div>
@@ -216,7 +231,7 @@
                     </div>
 
                     <div class="back flex flex-col shadow-[0_0_100px_rgba(212,175,55,0.4)]">
-                        <div class="relative flex-1 bg-neutral-900 overflow-hidden"> 
+                        <div id="media-container" class="relative flex-1 bg-neutral-900 overflow-hidden opacity-0 transition-opacity duration-300 delay-500"> 
                             <img id="win-img" src="" class="absolute inset-0 w-full h-full object-cover hidden scale-110">
                             <video id="win-vid" src="" class="absolute inset-0 w-full h-full object-cover hidden" loop muted playsinline></video>
                             
@@ -250,11 +265,11 @@
         </div>
 
         <div class="fixed bottom-8 right-8 z-50 flex gap-4">
-             <button onclick="changeCat(-1)" class="btn-epic w-14 h-14 rounded-full flex items-center justify-center pointer-events-auto">
+             <button id="btn-prev" onclick="changeCat(-1)" class="opacity-0 pointer-events-none btn-epic w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300">
                  <i data-lucide="arrow-left" class="w-5 h-5"></i>
              </button>
              
-             <button id="btn-next" onclick="changeCat(1)" class="opacity-0 pointer-events-none translate-y-10 transition-all duration-500 btn-epic pl-8 pr-4 py-4 rounded-full uppercase text-xs font-bold flex items-center gap-4 bg-gold text-black border-none hover:text-black">
+             <button id="btn-next" onclick="changeCat(1)" class="btn-epic pl-8 pr-4 py-4 rounded-full uppercase text-xs font-bold flex items-center gap-4 bg-gold text-black border-none hover:text-black hover:scale-105 pointer-events-auto transition-transform">
                  Siguiente Categoría <div class="bg-black text-gold rounded-full p-1"><i data-lucide="arrow-right" class="w-4 h-4"></i></div>
              </button>
         </div>
@@ -263,7 +278,7 @@
     <script>
         lucide.createIcons();
 
-        // 1. DATOS GANADORES (MODIFICAR AQUI)
+        // 1. DATOS GANADORES
         const winnersData = [
             { cat: "Más tocapelotas del grupo",           name: "PABLO GARCÍA",      type: "img",   media: "fotos/pablog.jpg" },
             { cat: "Persona más graciosa del grupo",      name: "JOSÉ LUIS",         type: "img",   media: "fotos/joseluis.jpg" },
@@ -282,7 +297,7 @@
             { cat: "Mejor evento del año",                name: "ASTURIAS 2025",     type: "img",   media: "fotos/grupo.jpg" }
         ];
 
-        // 2. NAVEGACION
+        // 2. NAVEGACIÓN ENTRE PANTALLAS
         function goToScreen(id) {
             document.querySelectorAll('.screen-section').forEach(el => {
                 el.classList.remove('active');
@@ -291,7 +306,7 @@
             setTimeout(() => target.classList.add('active'), 100);
         }
 
-        // 3. CANDIDATOS
+        // 3. LOGICA CANDIDATOS
         const candidates = [
             { name: "Carlos", desc: "EL FENÓMENO, conocido por desaparecer en verano. Su superpoder es repartir salami por Albacete.", photo: "fotos/carlos.jpg", stats: [60, 30, 60, 70, 80] },
             { name: "Adriana", desc: "La reina de la física y los animes. Si hay una tarta de queso cerca, ella ya está saltando. Probablemente llegue tarde a la gala.", photo: "fotos/adriana.jpg", stats: [90, 30, 50, 60, 40] },
@@ -305,8 +320,6 @@
         let candIdx = 0;
         function updateCand() {
             const c = candidates[candIdx];
-            
-            // Animación suave de cambio de candidato
             const infoElements = [document.getElementById('cand-name'), document.getElementById('cand-desc')];
             infoElements.forEach(el => el.style.opacity = '0');
             
@@ -316,9 +329,7 @@
                 document.getElementById('cand-name-mobile').innerText = c.name;
                 document.getElementById('cand-desc').innerText = `"${c.desc}"`;
                 document.getElementById('cand-counter').innerText = `${candIdx+1} / ${candidates.length}`;
-                
                 infoElements.forEach(el => el.style.opacity = '1');
-                
                 for(let i=0; i<5; i++) document.getElementById(`bar-${i+1}`).style.width = c.stats[i] + '%';
             }, 300);
         }
@@ -326,100 +337,152 @@
         function prevCandidate() { candIdx = (candIdx - 1 + candidates.length) % candidates.length; updateCand(); }
         updateCand();
 
-        // 4. LÓGICA PREMIOS (NUEVO SISTEMA FLASH-SWAP ANTI SPOILER)
+        // 4. LÓGICA PREMIOS (CORREGIDA - SIN LAG)
         let currentCatIdx = 0;
         let isRevealed = false;
+        let isAnimationInProgress = false; 
+        let safetyTimer = null;
 
         const ui = {
             title: document.getElementById('cat-title'),
             counter: document.getElementById('counter'),
             card: document.getElementById('main-card'),
             front: document.getElementById('card-front'),
-            lights: document.getElementById('reveal-lights'),
             winName: document.getElementById('win-name'),
             winImg: document.getElementById('win-img'),
             winVid: document.getElementById('win-vid'),
             btnNext: document.getElementById('btn-next'),
-            audioDrum: document.getElementById('audio-drumroll'),
-            audioVictory: document.getElementById('audio-victory')
+            btnPrev: document.getElementById('btn-prev'),
+            audioGala: document.getElementById('audio-gala'),
+            mediaContainer: document.getElementById('media-container'),
+            blackout: document.getElementById('blackout-layer'),
+            body: document.body
         };
 
         function updateAwardUI() {
+            // DETENER TODO
             isRevealed = false;
-            
-            // RESET VISUAL COMPLETO
-            ui.card.classList.remove('is-revealed', 'trigger-flash'); // Quitar estado revelado y flash
+            isAnimationInProgress = false;
+            clearTimeout(safetyTimer);
+
+            // LIMPIEZA VISUAL
+            ui.body.classList.remove('blackout-active'); 
+            ui.card.classList.remove('is-revealed', 'trigger-flash');
             ui.front.classList.remove('animate-shake-hard');
-            ui.lights.classList.remove('opacity-100'); 
-            ui.btnNext.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
-            ui.btnNext.classList.add('opacity-0', 'pointer-events-none', 'translate-y-10');
             
-            // Pausar audios
-            ui.winVid.pause(); 
-            ui.audioDrum.pause(); ui.audioDrum.currentTime = 0;
-            ui.audioVictory.pause(); ui.audioVictory.currentTime = 0;
+            // RESET AUDIO
+            ui.audioGala.pause(); 
+            ui.audioGala.currentTime = 0;
+            
+            // LIMPIAR MEDIOS (IMPORTANTE PARA EVITAR SPOILERS VISUALES)
+            ui.winImg.src = "";
+            ui.winVid.src = "";
+            ui.winImg.classList.add('hidden');
+            ui.winVid.classList.add('hidden');
+            ui.mediaContainer.classList.remove('opacity-100');
+            ui.mediaContainer.classList.add('opacity-0');
 
+            // NAVEGACIÓN
+            if (currentCatIdx === 0) {
+                ui.btnPrev.classList.remove('opacity-100', 'pointer-events-auto');
+                ui.btnPrev.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                ui.btnPrev.classList.add('opacity-100', 'pointer-events-auto');
+                ui.btnPrev.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            // TEXTOS
             const data = winnersData[currentCatIdx];
-            ui.title.innerText = data.cat;
-            ui.counter.innerHTML = `${currentCatIdx + 1} <span class="text-neutral-600 text-sm">/ ${winnersData.length}</span>`;
-            ui.winName.innerText = data.name;
+            // Pequeño delay para textos para suavizar la transición
+            setTimeout(() => {
+                ui.title.innerText = data.cat;
+                ui.counter.innerHTML = `${currentCatIdx + 1} <span class="text-neutral-600 text-sm">/ ${winnersData.length}</span>`;
+                ui.winName.innerText = data.name;
+            }, 100);
+        }
 
-            // Cargar contenido en background (invisible por CSS)
+        // FUNCIÓN: PRECARGAR IMAGEN/VIDEO DURANTE EL REDOBLE
+        function preloadWinnerMedia() {
+            const data = winnersData[currentCatIdx];
+            
             if(data.type === 'video') {
                 ui.winImg.classList.add('hidden');
                 ui.winVid.classList.remove('hidden');
                 ui.winVid.src = data.media;
+                ui.winVid.load(); // Forzar carga
             } else {
                 ui.winVid.classList.add('hidden');
                 ui.winImg.classList.remove('hidden');
                 ui.winImg.src = data.media;
+                // La imagen se empieza a cargar aquí, 2.5s antes de mostrarse
             }
         }
 
-        function revealWinner() {
-            if(isRevealed) return;
+        // FUNCIÓN CENTRAL DE REVELACIÓN
+        function executeRevealAction() {
+            if (isRevealed) return;
+
+            // 1. Limpiar tensión
+            ui.front.classList.remove('animate-shake-hard');
             
-            // 1. Audio + Temblor + Luces
-            ui.audioDrum.volume = 1.0;
-            ui.audioDrum.play().catch(e => console.log("Click para audio"));
-            ui.front.classList.add('animate-shake-hard');
-            ui.lights.classList.add('opacity-100'); 
+            // 2. DISPARAR FLASH
+            ui.card.classList.add('trigger-flash');
 
-            // 2. Drop (3.5s) -> FLASH Y CAMBIO
+            // 3. CAMBIO VISUAL INSTANTÁNEO BAJO EL FLASH
             setTimeout(() => {
-                ui.front.classList.remove('animate-shake-hard');
-                ui.audioDrum.pause();
+                // Hacer visible el contenedor de la imagen YA (ya debería estar cargada)
+                ui.mediaContainer.classList.remove('opacity-0');
+                ui.mediaContainer.classList.add('opacity-100');
+
+                // Quitar oscuridad
+                ui.body.classList.remove('blackout-active');
+
+                // Swap de capas
+                ui.card.classList.add('is-revealed');
                 
-                // DISPARAR EL FLASH
-                ui.card.classList.add('trigger-flash');
+                // Reproducir video si es video
+                if(!ui.winVid.classList.contains('hidden')) ui.winVid.play();
+                
+                // Efectos
+                launchFireworks();
+                confetti({ particleCount: 300, spread: 150, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#000000'], gravity: 0.8 });
+                isRevealed = true;
+                isAnimationInProgress = false;
 
-                // JUSTO EN MITAD DEL FLASH (250ms después), HACEMOS EL CAMBIO
-                setTimeout(() => {
-                    // MÚSICA DE VICTORIA
-                    ui.audioVictory.volume = 0.8;
-                    ui.audioVictory.play().catch(e => console.log("Audio victoria error"));
-
-                    // CAMBIO INSTANTÁNEO DE CAPAS (SWAP)
-                    ui.card.classList.add('is-revealed');
-                    
-                    if(!ui.winVid.classList.contains('hidden')) ui.winVid.play();
-                    
-                    // FUEGOS Y CONFETI
-                    launchFireworks();
-                    confetti({ particleCount: 300, spread: 150, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#000000'], gravity: 0.8 });
-                    isRevealed = true;
-                    
-                    // MOSTRAR BOTÓN SIGUIENTE
-                    setTimeout(() => {
-                        ui.btnNext.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-10');
-                        ui.btnNext.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
-                    }, 1000);
-                }, 250); // Retraso para coincidir con el pico blanco del flash
-
-            }, 3500); 
+            }, 250); // Sincronizado con el pico blanco del flash
         }
 
-        // FUNCIÓN FUEGOS ARTIFICIALES
+        function revealWinner() {
+            if(isRevealed || isAnimationInProgress) return;
+            isAnimationInProgress = true;
+            
+            // 1. CARGAR IMAGEN EN SEGUNDO PLANO AHORA MISMO
+            preloadWinnerMedia();
+
+            // 2. INICIAR TENSIÓN
+            ui.body.classList.add('blackout-active'); 
+            ui.front.classList.add('animate-shake-hard');
+
+            // 3. REPRODUCIR AUDIO
+            ui.audioGala.volume = 1.0;
+            ui.audioGala.currentTime = 0;
+            const playPromise = ui.audioGala.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Temporizador 3.25s
+                    safetyTimer = setTimeout(() => {
+                        executeRevealAction();
+                    }, 3250); 
+                }).catch(error => {
+                    console.log("Audio bloqueado, fallback manual.");
+                    setTimeout(() => executeRevealAction(), 3250);
+                });
+            } else {
+                setTimeout(() => executeRevealAction(), 3250);
+            }
+        }
+
         function launchFireworks() {
             var duration = 5 * 1000;
             var animationEnd = Date.now() + duration;
@@ -446,10 +509,9 @@
             }
         }
         
-        // Iniciar
         updateAwardUI();
 
-        // 5. FONDO CONSTELACIONES INTERACTIVAS
+        // 5. FONDO
         const canvas = document.getElementById('constellation-bg');
         const ctx = canvas.getContext('2d');
         let particlesArray;
@@ -502,7 +564,6 @@
         }
         resizeCanvas(); animateParticles();
 
-        // LOGICA CURSOR
         const cursor = document.getElementById('custom-cursor');
         const dot = document.getElementById('cursor-dot');
         document.addEventListener('mousemove', e => {
