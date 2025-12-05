@@ -64,7 +64,7 @@
         .text-gold-epic { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c, #bf953f); background-size: 300% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineGold 5s linear infinite; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
 
         /* TARJETA SIN GIRO 3D - SISTEMA DE CAPAS */
-        .card-container { position: relative; width: 100%; height: 100%; z-index: 60; /* Z-Index alto para sobresalir del blackout */ }
+        .card-container { position: relative; width: 100%; height: 100%; z-index: 60; }
         .front, .back { 
             position: absolute; inset: 0; width: 100%; height: 100%;
             -webkit-backface-visibility: hidden; backface-visibility: hidden; 
@@ -73,34 +73,27 @@
             transition: opacity 0.1s ease-in-out;
         }
 
-        /* ESTADO INICIAL */
         .front { z-index: 2; opacity: 1; pointer-events: auto; background: radial-gradient(circle at center, #1a1a1a, #000); border: 2px solid #d4af37; }
         .back { z-index: 1; opacity: 0; pointer-events: none; background: #000; border: 2px solid #d4af37; }
 
-        /* ESTADO REVELADO */
         .card-container.is-revealed .front { opacity: 0; pointer-events: none; z-index: 1; }
         .card-container.is-revealed .back { opacity: 1; pointer-events: auto; z-index: 2; }
 
-        /* PATRÓN DEL FRENTE */
         .front::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
 
-        /* CAPA DE FLASH BLANCO */
         #flash-overlay { position: absolute; inset: 0; background: white; opacity: 0; z-index: 100; pointer-events: none; mix-blend-mode: screen; }
         .trigger-flash #flash-overlay { animation: flash 0.7s ease-out forwards; }
 
-        /* CAPA DE BLACKOUT (APAGÓN) */
         #blackout-layer {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92); 
-            z-index: 50; /* Debajo de la tarjeta pero encima del fondo */
+            z-index: 50; 
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         .blackout-active #blackout-layer { opacity: 1; }
 
-        /* BOTONES ÉPICOS */
         .btn-epic { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0)); backdrop-filter: blur(10px); border: 1px solid rgba(212,175,55,0.3); color: #d4af37; transition: all 0.3s ease; cursor: pointer; }
         .btn-epic:hover { background: #d4af37; color: #000; border-color: #d4af37; box-shadow: 0 0 30px rgba(212,175,55,0.5); transform: translateY(-2px); }
 
-        /* FOCOS DE TEATRO (STAGE LIGHTS) */
         .stage-light {
             position: absolute; width: 40%; height: 150%; top: -30%;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, transparent 80%);
@@ -110,29 +103,51 @@
         .light-left { left: -10%; transform: rotate(25deg); animation: sway 6s ease-in-out infinite alternate; }
         .light-right { right: -10%; transform: rotate(-25deg); animation: sway 7s ease-in-out infinite alternate-reverse; }
 
-        /* HEADER LOGO */
         .header-logo-container { cursor: pointer; transition: transform 0.3s ease; }
         .header-logo-container:hover { transform: scale(1.05); }
     </style>
 </head>
 <body class="text-white h-screen w-screen flex flex-col font-sans overflow-hidden">
 
+    <div class="fixed top-6 left-6 z-50 pointer-events-auto">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="goToScreen('screen-intro')">
+            <div class="relative">
+                <div class="absolute inset-0 bg-gold blur-lg opacity-50 animate-pulse-slow group-hover:opacity-100 transition-opacity"></div>
+                <img src="fotos/logo.png" class="w-8 h-8 md:w-10 md:h-10 object-contain relative z-10 transition-transform duration-500 group-hover:scale-110">
+            </div>
+            <div class="flex flex-col">
+                <span class="text-white font-black uppercase leading-none tracking-wider text-xs md:text-sm group-hover:text-gold transition-colors">Viaje de S3X0</span>
+                <span class="text-gold font-bold uppercase text-[9px] md:text-[10px] tracking-[0.3em] leading-none self-start ml-[1px] mt-1">Awards 2025</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed top-6 right-6 z-50 flex flex-col items-end pointer-events-auto">
+        <button onclick="toggleMenu()" class="btn-epic p-2 md:p-3 rounded-full relative z-50 transform hover:scale-110 transition-transform">
+            <i data-lucide="menu" class="w-5 h-5 md:w-6 md:h-6"></i>
+        </button>
+        
+        <div id="nav-menu" class="hidden absolute top-14 right-0 bg-black/95 border border-gold/30 rounded-lg p-4 flex flex-col gap-4 min-w-[160px] backdrop-blur-xl shadow-[0_0_30px_rgba(212,175,55,0.2)] origin-top-right transition-all z-40">
+            <button onclick="goToScreen('screen-candidates'); toggleMenu()" class="text-right text-white hover:text-gold text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-end gap-2 group">
+                Candidatos <i data-lucide="users" class="w-3 h-3 group-hover:text-gold transition-colors"></i>
+            </button>
+            <button onclick="goToScreen('screen-awards'); toggleMenu()" class="text-right text-white hover:text-gold text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-end gap-2 group">
+                Premios <i data-lucide="trophy" class="w-3 h-3 group-hover:text-gold transition-colors"></i>
+            </button>
+            <button onclick="goToScreen('screen-closing'); toggleMenu()" class="text-right text-white hover:text-gold text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-end gap-2 group">
+                Despedida <i data-lucide="log-out" class="w-3 h-3 group-hover:text-gold transition-colors"></i>
+            </button>
+        </div>
+    </div>
     <div id="custom-cursor"></div><div id="cursor-dot"></div>
     
     <audio id="audio-gala" src="fotos/victoria.mp3" preload="auto"></audio>
+    <audio id="audio-despedida" src="fotos/despedida.mp3" preload="auto"></audio>
     
     <canvas id="constellation-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
     <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80"></div>
 
     <div id="blackout-layer"></div>
-
-    <div onclick="goToScreen('screen-intro')" class="fixed top-6 left-8 z-50 flex items-center gap-3 header-logo-container group">
-        <img src="fotos/logo.png" class="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.6)] group-hover:drop-shadow-[0_0_20px_rgba(212,175,55,1)] transition-all">
-        <div class="flex flex-col">
-            <span class="text-white font-display font-bold uppercase tracking-widest text-xs leading-none group-hover:text-gold transition-colors">Viaje de S3X0</span>
-            <span class="text-gold font-display font-bold uppercase tracking-[0.2em] text-[10px] leading-none mt-1">Awards 2025</span>
-        </div>
-    </div>
 
     <section id="screen-intro" class="screen-section active flex flex-col items-center justify-center">
         <div class="stage-light light-left"></div>
@@ -198,12 +213,6 @@
 
     <section id="screen-awards" class="screen-section flex flex-col relative overflow-hidden">
         
-        <div class="absolute top-8 right-8 z-50">
-            <button onclick="goToScreen('screen-candidates')" class="btn-epic px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                <i data-lucide="users" class="w-3 h-3"></i> Candidatos
-            </button>
-        </div>
-
         <div class="flex-1 flex flex-col items-center justify-center relative z-10 px-4">
             
             <div class="stage-light light-left"></div>
@@ -264,14 +273,43 @@
              </div>
         </div>
 
-        <div class="fixed bottom-8 right-8 z-50 flex gap-4">
-             <button id="btn-prev" onclick="changeCat(-1)" class="opacity-0 pointer-events-none btn-epic w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300">
-                 <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        <div class="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+             <button id="btn-prev" onclick="changeCat(-1)" class="opacity-0 pointer-events-none btn-epic w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/50 border border-gold/30 hover:bg-gold/20">
+                 <i data-lucide="arrow-left" class="w-4 h-4 text-gold"></i>
              </button>
              
-             <button id="btn-next" onclick="changeCat(1)" class="btn-epic pl-8 pr-4 py-4 rounded-full uppercase text-xs font-bold flex items-center gap-4 bg-gold text-black border-none hover:text-black hover:scale-105 pointer-events-auto transition-transform">
-                 Siguiente Categoría <div class="bg-black text-gold rounded-full p-1"><i data-lucide="arrow-right" class="w-4 h-4"></i></div>
+             <button id="btn-next" onclick="changeCat(1)" class="btn-epic pl-6 pr-3 py-3 rounded-full uppercase text-[10px] font-bold flex items-center gap-3 bg-gold text-black border-none hover:text-black hover:scale-105 pointer-events-auto transition-transform">
+                 Siguiente <div class="bg-black text-gold rounded-full p-1"><i data-lucide="arrow-right" class="w-3 h-3"></i></div>
              </button>
+
+             <button id="btn-closing" onclick="goToScreen('screen-closing')" class="hidden btn-epic pl-6 pr-3 py-3 rounded-full uppercase text-[10px] font-bold flex items-center gap-3 bg-white text-black border-none hover:bg-gold hover:text-black hover:scale-105 pointer-events-auto transition-transform shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+                 Ir a Despedida <div class="bg-black text-white rounded-full p-1"><i data-lucide="party-popper" class="w-3 h-3"></i></div>
+             </button>
+        </div>
+    </section>
+
+    <section id="screen-closing" class="screen-section flex flex-col items-center justify-start pt-24 md:justify-center text-center p-8">
+        <div class="stage-light light-left"></div>
+        <div class="stage-light light-right"></div>
+        
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_70%)] animate-pulse-glow"></div>
+
+        <div class="relative z-10 animate-zoom-in w-full max-w-5xl flex flex-col items-center">
+            
+            <h1 class="text-4xl md:text-6xl lg:text-8xl font-display font-black text-white uppercase tracking-tighter leading-none mb-8 drop-shadow-2xl">
+                ¡GRACIAS POR<br><span class="text-gold-epic">VENIR!</span>
+            </h1>
+            
+            <div class="relative group transform hover:scale-105 transition-transform duration-700 mb-10 w-full max-w-xl">
+                 <div class="absolute inset-0 bg-gold blur-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
+                 <img src="fotos/grupo.jpg" class="relative rounded-lg border-2 border-gold/50 shadow-[0_0_60px_rgba(0,0,0,0.8)] w-full h-auto max-h-[45vh] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+            </div>
+
+            <button onclick="location.reload()" class="btn-epic px-6 py-3 rounded-full uppercase text-[10px] font-bold flex items-center gap-2 bg-black/50 hover:bg-gold/20 border-gold/30 mb-4">
+                <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Reiniciar
+            </button>
+            
+            <p class="text-neutral-500 text-[10px] uppercase tracking-[0.3em] font-bold">Viaje de S3X0 Awards ® 2025</p>
         </div>
     </section>
 
@@ -297,13 +335,45 @@
             { cat: "Mejor evento del año",                name: "ASTURIAS 2025",     type: "img",   media: "fotos/grupo.jpg" }
         ];
 
-        // 2. NAVEGACIÓN ENTRE PANTALLAS
+        // 2. NAVEGACIÓN ENTRE PANTALLAS (ACTUALIZADA)
         function goToScreen(id) {
+            // Gestión de Audios
+            const audioGala = document.getElementById('audio-gala');
+            const audioBye = document.getElementById('audio-despedida');
+
+            // 1. Pausar todo primero
+            audioGala.pause();
+            audioBye.pause();
+
+            // 2. Lógica específica según la pantalla
+            if (id === 'screen-closing') {
+                audioBye.currentTime = 0;
+                audioBye.volume = 1.0;
+                audioBye.play().catch(e => console.log("Audio despedida bloqueado", e));
+            } 
+            else if (id === 'screen-awards' && isRevealed) {
+                // Si volvemos a premios y ya estaba revelado, quizás quieras reanudar la música de tensión o dejarlo en silencio.
+                // Por defecto lo dejamos en silencio hasta que se pulse "Revelar" de nuevo.
+            }
+
+            // Transición visual
             document.querySelectorAll('.screen-section').forEach(el => {
                 el.classList.remove('active');
             });
             const target = document.getElementById(id);
-            setTimeout(() => target.classList.add('active'), 100);
+            if(target) setTimeout(() => target.classList.add('active'), 100);
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Pequeña animación de entrada
+                menu.classList.add('animate-zoom-in');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('animate-zoom-in');
+            }
         }
 
         // 3. LOGICA CANDIDATOS
@@ -382,13 +452,29 @@
             ui.mediaContainer.classList.remove('opacity-100');
             ui.mediaContainer.classList.add('opacity-0');
 
-            // NAVEGACIÓN
+            // --- NAVEGACIÓN ---
+            const btnNext = document.getElementById('btn-next');
+            const btnClosing = document.getElementById('btn-closing');
+            const btnPrev = document.getElementById('btn-prev');
+
+            // 1. Botón Anterior
             if (currentCatIdx === 0) {
-                ui.btnPrev.classList.remove('opacity-100', 'pointer-events-auto');
-                ui.btnPrev.classList.add('opacity-0', 'pointer-events-none');
+                btnPrev.classList.remove('opacity-100', 'pointer-events-auto');
+                btnPrev.classList.add('opacity-0', 'pointer-events-none');
             } else {
-                ui.btnPrev.classList.add('opacity-100', 'pointer-events-auto');
-                ui.btnPrev.classList.remove('opacity-0', 'pointer-events-none');
+                btnPrev.classList.add('opacity-100', 'pointer-events-auto');
+                btnPrev.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            // 2. Lógica Botón Siguiente vs Despedida
+            if (currentCatIdx === winnersData.length - 1) {
+                // Estamos en la última categoría: Ocultar Siguiente, Mostrar Despedida
+                btnNext.classList.add('hidden');
+                btnClosing.classList.remove('hidden');
+            } else {
+                // No es la última: Mostrar Siguiente, Ocultar Despedida
+                btnNext.classList.remove('hidden');
+                btnClosing.classList.add('hidden');
             }
 
             // TEXTOS
