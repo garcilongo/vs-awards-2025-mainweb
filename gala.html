@@ -171,6 +171,8 @@
     
     <audio id="audio-gala" src="fotos/victoria.mp3" preload="auto"></audio>
     <audio id="audio-despedida" src="fotos/despedida.mp3" preload="auto" loop></audio>
+    <audio id="audio-ambiente" src="fotos/ambiente.mp3" preload="auto" loop></audio>
+    <audio id="audio-nominados" src="fotos/nominados.mp3" preload="auto" loop></audio>
     
     <canvas id="constellation-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
     <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80"></div>
@@ -353,20 +355,44 @@
             { cat: "Mejor evento del año",                name: "ASTURIAS 2025",     type: "img",   media: "fotos/grupo.jpg" }
         ];
 
-        // 2. NAVEGACIÓN
+        // 2. NAVEGACIÓN Y MÚSICA DE FONDO
         function goToScreen(id) {
-            const audioGala = document.getElementById('audio-gala');
-            const audioBye = document.getElementById('audio-despedida');
+            // Referencias a todos los audios
+            const audioGala = document.getElementById('audio-gala');         // Efecto reveal
+            const audioBye = document.getElementById('audio-despedida');     // Despedida
+            const audioAmbiente = document.getElementById('audio-ambiente'); // Intro (NUEVO)
+            const audioNominados = document.getElementById('audio-nominados');// Candidatos (NUEVO)
 
+            // 1. PAUSAR TODO primero para evitar solapamientos
             audioGala.pause();
             audioBye.pause();
+            audioAmbiente.pause();
+            audioNominados.pause();
 
-            if (id === 'screen-closing') {
-                audioBye.currentTime = 0;
+            // (Opcional) Resetear el tiempo a 0 si quieres que empiecen desde el principio cada vez
+            // Si prefieres que continúen donde se quedaron, borra las líneas de .currentTime = 0
+            audioBye.currentTime = 0;
+            audioAmbiente.currentTime = 0;
+            audioNominados.currentTime = 0;
+
+            // 2. REPRODUCIR SEGÚN LA PANTALLA
+            if (id === 'screen-intro') {
+                // Estamos en Inicio -> Suena Ambiente
+                audioAmbiente.play().catch(e => console.log("Autoplay bloqueado (Ambiente)", e));
+            } 
+            else if (id === 'screen-candidates') {
+                // Estamos en Candidatos -> Suena Nominados
+                audioNominados.play().catch(e => console.log("Autoplay bloqueado (Nominados)", e));
+            }
+            else if (id === 'screen-closing') {
+                // Estamos en Despedida -> Suena Despedida (Lógica existente)
                 audioBye.volume = 1.0;
                 audioBye.play().catch(e => console.log("Audio despedida bloqueado", e));
-            } 
+            }
+            // Nota: En 'screen-awards' no ponemos música de fondo para que no moleste 
+            // a los efectos de sonido del ganador (audioGala).
 
+            // 3. CAMBIO VISUAL (Código original de las pantallas)
             document.querySelectorAll('.screen-section').forEach(el => {
                 el.classList.remove('active');
             });
@@ -630,6 +656,21 @@
         document.addEventListener('mousemove', e => {
             dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
             setTimeout(() => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; }, 40);
+        });
+
+        // Intentar reproducir música de ambiente al cargar la página
+        // Nota: Los navegadores suelen bloquear esto hasta que el usuario hace clic en algo.
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioAmbiente = document.getElementById('audio-ambiente');
+            audioAmbiente.play().catch(() => {
+                // Si falla el autoplay, añadimos un listener para que suene al primer clic en cualquier sitio
+                document.body.addEventListener('click', () => {
+                    // Solo si seguimos en la intro y no está sonando ya
+                    if(document.getElementById('screen-intro').classList.contains('active') && audioAmbiente.paused) {
+                        audioAmbiente.play();
+                    }
+                }, { once: true });
+            });
         });
     </script>
 </body>
