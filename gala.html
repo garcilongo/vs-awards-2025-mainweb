@@ -173,6 +173,7 @@
     <audio id="audio-despedida" src="fotos/despedida.mp3" preload="auto" loop></audio>
     <audio id="audio-ambiente" src="fotos/ambiente.mp3" preload="auto" loop></audio>
     <audio id="audio-nominados" src="fotos/nominados.mp3" preload="auto" loop></audio>
+    <audio id="audio-fondo" src="fotos/fondo.mp3" preload="auto" loop></audio>
     
     <canvas id="constellation-bg" class="fixed inset-0 pointer-events-none z-0"></canvas>
     <div class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80"></div>
@@ -355,44 +356,43 @@
             { cat: "Mejor evento del año",                name: "ASTURIAS 2025",     type: "img",   media: "fotos/grupo.jpg" }
         ];
 
-        // 2. NAVEGACIÓN Y MÚSICA DE FONDO
         function goToScreen(id) {
-            // Referencias a todos los audios
-            const audioGala = document.getElementById('audio-gala');         // Efecto reveal
-            const audioBye = document.getElementById('audio-despedida');     // Despedida
-            const audioAmbiente = document.getElementById('audio-ambiente'); // Intro (NUEVO)
-            const audioNominados = document.getElementById('audio-nominados');// Candidatos (NUEVO)
+            const audioGala = document.getElementById('audio-gala');
+            const audioBye = document.getElementById('audio-despedida');
+            const audioAmbiente = document.getElementById('audio-ambiente');
+            const audioNominados = document.getElementById('audio-nominados');
+            const audioFondo = document.getElementById('audio-fondo'); // Referencia nueva
 
-            // 1. PAUSAR TODO primero para evitar solapamientos
+            // 1. PAUSAR TODO
             audioGala.pause();
             audioBye.pause();
             audioAmbiente.pause();
             audioNominados.pause();
+            audioFondo.pause();
 
-            // (Opcional) Resetear el tiempo a 0 si quieres que empiecen desde el principio cada vez
-            // Si prefieres que continúen donde se quedaron, borra las líneas de .currentTime = 0
+            // Resetear tiempos para que empiecen de cero al cambiar de sección
             audioBye.currentTime = 0;
             audioAmbiente.currentTime = 0;
             audioNominados.currentTime = 0;
+            // audioFondo.currentTime = 0; // Descomenta si quieres que empiece de 0 cada vez que entras a Premios
 
-            // 2. REPRODUCIR SEGÚN LA PANTALLA
+            // 2. REPRODUCIR SEGÚN PANTALLA
             if (id === 'screen-intro') {
-                // Estamos en Inicio -> Suena Ambiente
-                audioAmbiente.play().catch(e => console.log("Autoplay bloqueado (Ambiente)", e));
+                audioAmbiente.play().catch(e => console.log(e));
             } 
             else if (id === 'screen-candidates') {
-                // Estamos en Candidatos -> Suena Nominados
-                audioNominados.play().catch(e => console.log("Autoplay bloqueado (Nominados)", e));
+                audioNominados.play().catch(e => console.log(e));
+            }
+            else if (id === 'screen-awards') {
+                // Al entrar a premios, suena el fondo
+                audioFondo.play().catch(e => console.log(e));
             }
             else if (id === 'screen-closing') {
-                // Estamos en Despedida -> Suena Despedida (Lógica existente)
                 audioBye.volume = 1.0;
-                audioBye.play().catch(e => console.log("Audio despedida bloqueado", e));
+                audioBye.play().catch(e => console.log(e));
             }
-            // Nota: En 'screen-awards' no ponemos música de fondo para que no moleste 
-            // a los efectos de sonido del ganador (audioGala).
 
-            // 3. CAMBIO VISUAL (Código original de las pantallas)
+            // 3. CAMBIO VISUAL
             document.querySelectorAll('.screen-section').forEach(el => {
                 el.classList.remove('active');
             });
@@ -469,13 +469,26 @@
             isAnimationInProgress = false;
             clearTimeout(safetyTimer);
 
+            // --- GESTIÓN DE AUDIO AL CAMBIAR DE PREMIO ---
+            const audioGala = document.getElementById('audio-gala');
+            const audioFondo = document.getElementById('audio-fondo');
+
+            // Cortar victoria si estaba sonando
+            audioGala.pause();
+            audioGala.currentTime = 0;
+            audioGala.onended = null; // Importante: quitar el listener para evitar conflictos
+
+            // Asegurar que suena el fondo (si seguimos en la sección de premios)
+            if (document.getElementById('screen-awards').classList.contains('active')) {
+                audioFondo.play().catch(e => console.log(e));
+            }
+            // ---------------------------------------------
+
             ui.body.classList.remove('blackout-active'); 
             ui.card.classList.remove('is-revealed', 'trigger-flash');
             ui.front.classList.remove('animate-shake-hard');
             
-            ui.audioGala.pause(); 
-            ui.audioGala.currentTime = 0;
-            
+            // (El resto de tu función updateAwardUI sigue igual...)
             ui.winImg.src = "";
             ui.winVid.src = "";
             ui.winImg.classList.add('hidden');
@@ -549,13 +562,29 @@
             
             preloadWinnerMedia();
 
-            // Activar Blackout y temblor
+            // --- LÓGICA DE AUDIO MEJORADA ---
+            const audioFondo = document.getElementById('audio-fondo');
+            const audioGala = document.getElementById('audio-gala');
+
+            // 1. Pausar música de fondo (se queda donde estaba)
+            audioFondo.pause();
+
+            // 2. Preparar audio victoria
+            audioGala.volume = 1.0;
+            audioGala.currentTime = 0;
+            
+            // 3. Cuando acabe la victoria, reanudar fondo
+            audioGala.onended = function() {
+                audioFondo.play();
+            };
+
+            // 4. Reproducir victoria
+            const playPromise = audioGala.play();
+            // ---------------------------------
+
+            // Activar Blackout y temblor (código existente...)
             ui.body.classList.add('blackout-active'); 
             ui.front.classList.add('animate-shake-hard');
-
-            ui.audioGala.volume = 1.0;
-            ui.audioGala.currentTime = 0;
-            const playPromise = ui.audioGala.play();
 
             if (playPromise !== undefined) {
                 playPromise.then(() => {
