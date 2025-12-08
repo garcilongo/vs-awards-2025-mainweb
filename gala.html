@@ -269,7 +269,7 @@
                     <div class="back flex flex-col shadow-[0_0_100px_rgba(212,175,55,0.4)]">
                         <div id="media-container" class="relative flex-1 bg-neutral-900 overflow-hidden opacity-0 transition-opacity duration-500"> 
                             <img id="win-img" src="" class="absolute inset-0 w-full h-full object-cover hidden scale-110">
-                            <video id="win-vid" src="" class="absolute inset-0 w-full h-full object-cover hidden" loop muted playsinline></video>
+                            <video id="win-vid" src="" class="absolute inset-0 w-full h-full object-cover hidden" playsinline></video>
                             
                             <div class="absolute inset-0 bg-[radial-gradient(transparent_0%,#000000_100%)] opacity-60"></div>
                             <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
@@ -347,7 +347,7 @@
             { cat: "Fantasmada del año",                  name: "@",           type: "img",   media: "fotos/nicolas.jpg", audio: "fotos/victoria6.mp3" }, 
             { cat: "Pareja del año",                      name: "NICO Y ADRIANA",    type: "img",   media: "fotos/nicolas.jpg", audio: "fotos/victoria7.mp3" }, 
             { cat: "Mejor culo del grupo",                name: "PABLO GARCÍA",      type: "img",   media: "fotos/pablog.jpg", audio: "fotos/victoria8.mp3" }, 
-            { cat: "Plot twist del año",                  name: "ADRIANA Y NICO SE LÍAN",           type: "img",   media: "fotos/adriana.jpg", audio: "fotos/victoria9.mp3" }, 
+            { cat: "Plot twist del año",                  name: "ADRIANA Y NICO SE LÍAN",           type: "img",   media: "fotos/nicoxadriana.jpg", audio: "fotos/victoria9.mp3" }, 
             { cat: "Mejor foto del año",                  name: "@",     type: "img",   media: "fotos/foto_ganadora.jpg", audio: "fotos/victoria10.mp3" },  // No hecha
             { cat: "Premio al más cagón",                 name: "PABLO DOLZ",           type: "img",   media: "fotos/nicolas.jpg", audio: "fotos/victoria11.mp3" }, 
             { cat: "Premio al que más bebe",              name: "LUCÍA",             type: "img",   media: "fotos/lucia.jpg", audio: "fotos/victoria12.mp3" }, 
@@ -472,15 +472,17 @@
             const audioGala = document.getElementById('audio-gala');
             const audioFondo = document.getElementById('audio-fondo');
 
-            // 1. Resetear audios
+            // 1. Resetear audios y LIMPIAR EVENTOS
             audioGala.pause();
             audioGala.currentTime = 0;
+            audioGala.onended = null; // <--- IMPORTANTE: Limpiar el trigger del vídeo
             
-            // LIMPIEZA IMPORTANTE: Quitamos el evento 'onended' del vídeo
-            // para que no afecte a otros vídeos o categorías.
+            // Limpieza de vídeo por si acaso
             ui.winVid.onended = null; 
+            ui.winVid.pause();
+            ui.winVid.currentTime = 0;
 
-            // 2. Reactivar música de fondo (si seguimos en premios)
+            // 2. Reactivar música de fondo
             if (document.getElementById('screen-awards').classList.contains('active')) {
                 audioFondo.volume = 1.0; 
                 audioFondo.play().catch(e => console.log("Error reanudar fondo:", e));
@@ -497,7 +499,7 @@
             ui.mediaContainer.classList.remove('opacity-100');
             ui.mediaContainer.classList.add('opacity-0');
 
-            // Gestión de botones
+            // Botones
             const btnNext = document.getElementById('btn-next');
             const btnClosing = document.getElementById('btn-closing');
             const btnPrev = document.getElementById('btn-prev');
@@ -518,7 +520,7 @@
                 btnClosing.classList.add('hidden');
             }
 
-            // Actualizar textos
+            // Textos
             const data = winnersData[currentCatIdx];
             setTimeout(() => {
                 ui.title.innerText = data.cat;
@@ -549,9 +551,22 @@
             setTimeout(() => {
                 ui.mediaContainer.classList.remove('opacity-0');
                 ui.mediaContainer.classList.add('opacity-100');
-                ui.body.classList.remove('blackout-active'); // Esto apaga la oscuridad
+                ui.body.classList.remove('blackout-active');
                 ui.card.classList.add('is-revealed');
-                if(!ui.winVid.classList.contains('hidden')) ui.winVid.play();
+                
+                // Obtenemos datos actuales para comprobar categoría
+                const data = winnersData[currentCatIdx];
+
+                if(!ui.winVid.classList.contains('hidden')) {
+                    // SOLO reproducimos automáticamente si NO es el vídeo del año
+                    // (Porque en el vídeo del año esperamos a que acabe el audio)
+                    if (data.cat !== "Mejor vídeo del año") {
+                        ui.winVid.muted = false; 
+                        ui.winVid.volume = 1.0;  
+                        ui.winVid.play().catch(e => console.log("Error play video:", e));
+                    }
+                }
+
                 launchFireworks();
                 confetti({ particleCount: 300, spread: 150, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#000000'], gravity: 0.8 });
                 isRevealed = true;
@@ -569,37 +584,33 @@
             const audioGala = document.getElementById('audio-gala');
             const data = winnersData[currentCatIdx]; 
 
-            // 1. Pausar música de fondo siempre
+            // 1. Pausar fondo
             audioFondo.pause();
 
-            // 2. Cargar el audio de victoria (pero no reproducirlo aún si es el vídeo)
+            // 2. Configurar y reproducir audio de victoria SIEMPRE
             if (data.audio) {
                 audioGala.src = data.audio;
                 audioGala.load();
                 audioGala.volume = 1.0;
+                audioGala.play().catch(e => console.log("Error audio victoria:", e));
             }
 
-            // --- LÓGICA ESPECIAL PARA "MEJOR VÍDEO DEL AÑO" ---
+            // --- LÓGICA ESPECIAL VÍDEO (Audio -> Video) ---
             if (data.cat === "Mejor vídeo del año") {
-                // A) No reproducimos la música de victoria todavía.
-                // B) Preparamos el vídeo para que al terminar active la música.
-                ui.winVid.onended = function() {
-                    audioGala.play().catch(e => console.log("Error play victoria video:", e));
+                // Cuando ACABE el audio, dale play al vídeo
+                audioGala.onended = function() {
+                    if(!ui.winVid.classList.contains('hidden')) {
+                        ui.winVid.muted = false;
+                        ui.winVid.volume = 1.0;
+                        ui.winVid.play().catch(e => console.log("Error play video post-audio:", e));
+                    }
                 };
-            } else {
-                // --- LÓGICA ESTÁNDAR PARA EL RESTO ---
-                // Reproducir música de victoria INMEDIATAMENTE al hacer click
-                if (data.audio) {
-                    audioGala.play().catch(e => console.log("Error audio victoria:", e));
-                }
-            }
-            // -----------------------------------------------------
+            } 
+            // ----------------------------------------------
 
-            // Efectos visuales (Blackout y Temblor)
             ui.body.classList.add('blackout-active'); 
             ui.front.classList.add('animate-shake-hard');
 
-            // Tiempo de tensión antes de abrir el sobre (3.25s)
             setTimeout(() => {
                 executeRevealAction();
             }, 3250);
