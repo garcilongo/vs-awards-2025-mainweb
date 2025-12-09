@@ -60,8 +60,16 @@
         .screen-section { position: fixed; inset: 0; width: 100%; height: 100%; transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s; opacity: 0; pointer-events: none; z-index: 0; visibility: hidden; filter: blur(20px); transform: scale(1.1); }
         .screen-section.active { opacity: 1; pointer-events: auto; z-index: 10; transform: scale(1); visibility: visible; filter: blur(0); }
 
-        /* TEXTO DORADO ÉPICO */
-        .text-gold-epic { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c, #bf953f); background-size: 300% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineGold 5s linear infinite; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+        /* TEXTO DORADO ÉPICO (CORREGIDO: Quitamos text-shadow que causaba el bug visual) */
+        .text-gold-epic { 
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c, #bf953f); 
+            background-size: 300% auto; 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            color: transparent; 
+            animation: shineGold 5s linear infinite; 
+            /* Se ha eliminado text-shadow para evitar el efecto fantasma en Linux/Chrome */
+        }
 
         /* TARJETA SIN GIRO 3D - SISTEMA DE CAPAS */
         .card-container { position: relative; width: 100%; height: 100%; z-index: 60; }
@@ -296,7 +304,8 @@
                         <div class="relative z-10 border-2 border-gold rounded-full p-8 bg-[#1a1100]/80 backdrop-blur-md mb-8 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_60px_rgba(212,175,55,0.5)]">
                             <i data-lucide="star" class="w-16 h-16 text-gold fill-gold/20"></i>
                         </div>
-                        <p class="text-gold-epic font-display text-4xl font-bold uppercase tracking-[0.2em] drop-shadow-lg">Ganador/a</p>
+                        <p class="text-gold-epic font-display text-4xl font-bold uppercase tracking-[0.2em]">Ganador/a</p>
+                        
                         <div class="mt-8 px-6 py-2 border border-white/20 rounded-full bg-white/5 backdrop-blur">
                             <p class="text-neutral-400 text-[10px] uppercase tracking-[0.3em] font-bold">Toca para revelar</p>
                         </div>
